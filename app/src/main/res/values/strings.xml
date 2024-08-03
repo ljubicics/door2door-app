@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">door2door-app</string>
+    <string name="app_name">Door2Door</string>
+
+    <!-- Login -->
+    <string name="login">Login</string>
+    <string name="login_failed">Login failed, please try again</string>
+
+    <!-- Register -->
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="name">First Name</string>
+    <string name="surname">Last Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="register_button">Register</string>
+    <string name="register_error">Registration failed</string>
+
 </resources>

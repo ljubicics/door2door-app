@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -63,4 +65,26 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //Viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel)
+
+    // Navigation
+    implementation(libs.compose.navigation)
+
+    //Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    //Koin
+    implementation(libs.koin.android)
+
+    //Ktor
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.logging)
+    implementation(libs.ktor.client.negotiation)
+    implementation(libs.ktor.serialization)
+
+    // Font
+    implementation(libs.google.font)
 }
