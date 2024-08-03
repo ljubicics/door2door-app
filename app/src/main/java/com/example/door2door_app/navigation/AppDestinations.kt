@@ -4,9 +4,16 @@ import kotlinx.serialization.Serializable
 
 interface IDestination
 
+sealed class AppDestinations : IDestination {
+    @Serializable
+    data object SplashScreen : AppDestinations()
 
-@Serializable
-object LoginScreenPath : IDestination
+    @Serializable
+    data class LoginScreenPath(val path: String = "") : AppDestinations()
 
-@Serializable
-object HomeScreenPath : IDestination
+    @Serializable
+    data object HomeScreenPath : AppDestinations()
+
+    @Serializable
+    data object RegisterScreenPath : AppDestinations()
+}

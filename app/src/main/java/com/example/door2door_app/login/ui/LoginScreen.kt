@@ -1,9 +1,12 @@
 package com.example.door2door_app.login.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -11,17 +14,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,18 +43,29 @@ import com.example.door2door_app.R
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 import org.koin.androidx.compose.koinViewModel
 
-
 @Composable
 fun LoginScreen(
     loginViewModel: LoginViewModel = koinViewModel(),
-    onSuccessfulLogin: () -> Unit
+    onSuccessfulLogin: () -> Unit,
+    onRegisterClick: () -> Unit
 ) {
 
     val state by loginViewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = null) {
         loginViewModel.nextScreen.collect {
             onSuccessfulLogin()
+        }
+    }
+
+    LaunchedEffect(key1 = null) {
+        loginViewModel.loginError.collect {
+            Toast.makeText(
+                context,
+                R.string.login_failed,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -54,7 +75,8 @@ fun LoginScreen(
         password = state.password,
         onUsernameChange = loginViewModel::setUsername,
         onPasswordChange = loginViewModel::setPassword,
-        onLoginClicked = loginViewModel::onLoginClick
+        onLoginClicked = loginViewModel::onLoginClick,
+        onRegisterClick = onRegisterClick
     )
 }
 
@@ -65,32 +87,32 @@ fun LoginScreenContent(
     password: String,
     onUsernameChange: (String) -> Unit = {},
     onPasswordChange: (String) -> Unit = {},
-    onLoginClicked: () -> Unit = {}
+    onLoginClicked: () -> Unit = {},
+    onRegisterClick: () -> Unit = {}
 ) {
-    Surface {
-        Column(
-            modifier = modifier
-                .background(MaterialTheme.colorScheme.surface)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                modifier = modifier.size(200.dp),
-                painter = painterResource(id = R.drawable.door2door_logo),
-                contentDescription = null,
-            )
-            LoginForm(
-                modifier = Modifier,
-                username = username,
-                password = password,
-                loginButtonText = "Login",
-                onUsernameChange = onUsernameChange,
-                onPasswordChange = onPasswordChange,
-                onLoginClicked = onLoginClicked
-            )
-        }
-
+    Column(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            modifier = modifier.size(200.dp),
+            painter = painterResource(id = R.drawable.door2door_logo),
+            contentDescription = null,
+        )
+        LoginForm(
+            modifier = Modifier,
+            username = username,
+            password = password,
+            loginButtonText = "Login",
+            onUsernameChange = onUsernameChange,
+            onPasswordChange = onPasswordChange,
+            onLoginClicked = onLoginClicked,
+            onRegisterClick = onRegisterClick
+        )
+        Spacer(modifier = modifier.height(100.dp))
     }
 }
 
@@ -102,7 +124,8 @@ fun LoginForm(
     loginButtonText: String,
     onUsernameChange: (String) -> Unit = {},
     onPasswordChange: (String) -> Unit = {},
-    onLoginClicked: () -> Unit = {}
+    onLoginClicked: () -> Unit = {},
+    onRegisterClick: () -> Unit = {}
 ) {
 
     Column(
@@ -113,21 +136,31 @@ fun LoginForm(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TextField(
-            modifier = Modifier.width(350.dp),
+            modifier = Modifier
+                .width(300.dp)
+                .height(50.dp),
             value = username,
-            placeholder = { Text(text = "Email") },
+            placeholder = { Text(text = "Username") },
             maxLines = 1,
             onValueChange = onUsernameChange,
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Text
-            )
+            ),
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = Color.Transparent
+            ),
+            leadingIcon = {
+                Icon(imageVector = Icons.Outlined.Person, contentDescription = null)
+            }
         )
 
-        Spacer(modifier = modifier.height(10.dp))
+        Spacer(modifier = modifier.height(20.dp))
 
         TextField(
-            modifier = Modifier.width(350.dp),
+            modifier = Modifier
+                .width(300.dp)
+                .height(50.dp),
             value = password,
             placeholder = { Text(text = "Password") },
             onValueChange = onPasswordChange,
@@ -136,10 +169,29 @@ fun LoginForm(
                 imeAction = ImeAction.Send,
                 keyboardType = KeyboardType.Password
             ),
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = Color.Transparent
+            ),
+            leadingIcon = {
+                Icon(imageVector = Icons.Outlined.Lock, contentDescription = null)
+            }
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = modifier.height(10.dp))
+
+        Row {
+            Text(text = "Don't have an account? ")
+            Text(
+                modifier = modifier.clickable {
+                    onRegisterClick()
+                },
+                text = "Register here",
+                color = Color.Blue
+            )
+        }
+
+        Spacer(modifier = Modifier.height(30.dp))
 
         Button(
             modifier = modifier.width(200.dp),
@@ -159,11 +211,13 @@ fun LoginForm(
 @Composable
 fun PreviewLoginScreen() {
     Door2DoorAppTheme {
-        LoginScreenContent(
-            username = "username",
-            password = "password",
-            onUsernameChange = {},
-            onPasswordChange = {}
-        )
+        Surface {
+            LoginScreenContent(
+                username = "",
+                password = "",
+                onUsernameChange = {},
+                onPasswordChange = {}
+            )
+        }
     }
 }

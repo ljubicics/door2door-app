@@ -1,8 +1,8 @@
-package com.example.door2door_app.login.data.repository.datasource
+package com.example.door2door_app.login.data.datasource
 
 import com.example.door2door_app.login.domain.repository.datasource.IRemoteDataSource
-import com.example.door2door_app.login.model.LoginRequest
-import com.example.door2door_app.login.model.LoginResponse
+import com.example.door2door_app.login.domain.model.LoginRequest
+import com.example.door2door_app.login.domain.model.LoginResponse
 import com.example.door2door_app.networking.response.RepositoryResponse
 import com.example.door2door_app.networking.util.safeRequest
 import io.ktor.client.HttpClient

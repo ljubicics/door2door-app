@@ -256,7 +256,7 @@ fun Door2DoorAppTheme(
     content: @Composable() () -> Unit
 ) {
     val colorScheme = when {
-        darkTheme -> darkScheme
+        darkTheme -> lightScheme
         else -> lightScheme
     }
 

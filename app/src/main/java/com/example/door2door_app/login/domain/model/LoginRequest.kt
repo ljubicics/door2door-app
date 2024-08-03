@@ -1,4 +1,4 @@
-package com.example.door2door_app.login.model
+package com.example.door2door_app.login.domain.model
 
 import kotlinx.serialization.Serializable
 

@@ -1,7 +1,7 @@
 package com.example.door2door_app.login.domain.usecase
 
 import com.example.door2door_app.login.domain.repository.ILoginRepository
-import com.example.door2door_app.login.model.LoginResult
+import com.example.door2door_app.login.domain.model.LoginResult
 import com.example.door2door_app.networking.response.RepositoryResponse
 
 class LoginUseCase(

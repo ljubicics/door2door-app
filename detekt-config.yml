@@ -1,0 +1,50 @@
+complexity:
+  active: true
+  LongParameterList:
+    active: true
+    functionThreshold: 5
+    constructorThreshold: 5
+    ignoreAnnotated: [ 'Composable' ]
+  TooManyFunctions:
+    active: false
+
+naming:
+  active: true
+  ClassNaming:
+    active: true
+    classPattern: '^[A-Z][A-Z]*[a-z]+(?:[A-Z][a-z]+)*$'
+  ConstructorParameterNaming:
+    active: true
+    parameterPattern: '^[a-z]+(?:[A-Z][a-z]+)*$'
+    privateParameterPattern: '^[a-z]+(?:[A-Z][a-z]+)*$'
+  EnumNaming:
+    active: true
+    enumEntryPattern: '^[A-Z][a-z]+(?:[A-Z][a-z]+)*$'
+  FunctionNaming:
+    active: false
+    functionPattern: '^[a-z]+(?:[A-Z][a-z]+)*$'
+    ignoreAnnotated: [ 'Composable' ]
+  FunctionParameterNaming:
+    active: true
+    parameterPattern: '^[a-z]+(?:[A-Z][a-z]+)*$'
+  MatchingDeclarationName:
+    active: true
+  MemberNameEqualsClassName:
+    active: true
+  ObjectPropertyNaming:
+    active: false
+    constantPattern: '^[A-Z][a-z]+(?:[A-Z][a-z]+)*$'
+    propertyPattern: '^[A-Z][a-z]+(?:[A-Z][a-z]+)*$'
+    privatePropertyPattern: '^[A-Z][a-z]+(?:[A-Z][a-z]+)*$'
+  PackageNaming:
+    active: false
+    packagePattern: '^[a-z]+(\.[a-z][a-zA-Z]*)*$'
+  TopLevelPropertyNaming:
+    active: false
+    constantPattern: '^[a-z]+(?:[A-Z][a-z]+)*$'
+    propertyPattern: '^[a-z]+(?:[A-Z][a-z]+)*$'
+    privatePropertyPattern: '^[a-z]+(?:[A-Z][a-z]+)*$'
+  VariableNaming:
+    active: true
+    variablePattern: '^[a-z]+(?:[A-Z][a-z]+)*$'
+    privateVariablePattern: '^[_a-z]+(?:[A-Z][a-z]+)*$'

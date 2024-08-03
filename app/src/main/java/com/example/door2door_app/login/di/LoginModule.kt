@@ -1,7 +1,7 @@
 package com.example.door2door_app.login.di
 
 import com.example.door2door_app.login.data.repository.LoginRepository
-import com.example.door2door_app.login.data.repository.datasource.RemoteDataSource
+import com.example.door2door_app.login.data.datasource.RemoteDataSource
 import com.example.door2door_app.login.domain.repository.ILoginRepository
 import com.example.door2door_app.login.domain.repository.datasource.IRemoteDataSource
 import com.example.door2door_app.login.domain.usecase.LoginUseCase

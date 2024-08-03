@@ -27,13 +27,16 @@ class LoginViewModel(
     private val _nextScreen = Channel<Unit>()
     val nextScreen = _nextScreen.receiveAsFlow()
 
+    private val _loginError = Channel<Unit>()
+    val loginError = _loginError.receiveAsFlow()
+
     fun onLoginClick() {
         viewModelScope.launch(Dispatchers.IO) {
             val result = loginUseCase(username(), password())
             if (result.isSuccessfulLogin) {
                 _nextScreen.send(Unit)
             } else {
-                // show error
+                _loginError.send(Unit)
             }
         }
     }
