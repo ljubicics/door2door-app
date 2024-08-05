@@ -6,9 +6,6 @@ interface IDestination
 
 sealed class AppDestinations : IDestination {
     @Serializable
-    data object SplashScreen : AppDestinations()
-
-    @Serializable
     data class LoginScreenPath(val path: String = "") : AppDestinations()
 
     @Serializable
@@ -16,4 +13,10 @@ sealed class AppDestinations : IDestination {
 
     @Serializable
     data object RegisterScreenPath : AppDestinations()
+}
+
+sealed class MainDestinations : IDestination {
+
+    @Serializable
+    data object HomeScreenPath : MainDestinations()
 }

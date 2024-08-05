@@ -1,9 +1,16 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
 }
+
+val projectPropertiesFile = rootProject.file("project.properties")
+val projectProperties = Properties()
+projectProperties.load(FileInputStream(projectPropertiesFile))
 
 android {
     namespace = "com.example.door2door_app"
@@ -20,6 +27,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "CONSUMER_KEY", "\"${projectProperties["MAPS_DEFAULT-KEY"]}\"")
     }
 
     buildTypes {
