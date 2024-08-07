@@ -18,5 +18,8 @@ sealed class AppDestinations : IDestination {
 sealed class MainDestinations : IDestination {
 
     @Serializable
-    data object HomeScreenPath : MainDestinations()
+    data object MainScreenPath : MainDestinations()
+
+    @Serializable
+    data object DeliveryScreenPath : MainDestinations()
 }

@@ -38,14 +38,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -96,4 +97,16 @@ dependencies {
 
     // Font
     implementation(libs.google.font)
+
+    // Maps
+    implementation(libs.mapbox)
+    implementation(libs.mapbox.compose)
+
+//    implementation("com.mapbox.navigationcore:navigation:3.3.0-rc.1")
+//    implementation("com.mapbox.navigationcore:copilot:3.3.0-rc.1")
+//    implementation("com.mapbox.navigationcore:ui-maps:3.3.0-rc.1")
+//    implementation("com.mapbox.navigationcore:voice:3.3.0-rc.1")
+//    implementation("com.mapbox.navigationcore:tripdata:3.3.0-rc.1")
+//    implementation("com.mapbox.navigationcore:android:3.3.0-rc.1")
+//    implementation("com.mapbox.navigationcore:ui-components:3.3.0-rc.1")
 }
