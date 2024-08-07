@@ -8,10 +8,6 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
-val projectPropertiesFile = rootProject.file("project.properties")
-val projectProperties = Properties()
-projectProperties.load(FileInputStream(projectPropertiesFile))
-
 android {
     namespace = "com.example.door2door_app"
     compileSdk = 34
@@ -27,8 +23,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        buildConfigField("String", "CONSUMER_KEY", "\"${projectProperties["MAPS_DEFAULT-KEY"]}\"")
     }
 
     buildTypes {
@@ -99,14 +93,10 @@ dependencies {
     implementation(libs.google.font)
 
     // Maps
-    implementation(libs.mapbox)
-    implementation(libs.mapbox.compose)
+//    implementation(libs.mapbox)
+//    implementation(libs.mapbox.compose)
 
-//    implementation("com.mapbox.navigationcore:navigation:3.3.0-rc.1")
-//    implementation("com.mapbox.navigationcore:copilot:3.3.0-rc.1")
-//    implementation("com.mapbox.navigationcore:ui-maps:3.3.0-rc.1")
-//    implementation("com.mapbox.navigationcore:voice:3.3.0-rc.1")
-//    implementation("com.mapbox.navigationcore:tripdata:3.3.0-rc.1")
-//    implementation("com.mapbox.navigationcore:android:3.3.0-rc.1")
-//    implementation("com.mapbox.navigationcore:ui-components:3.3.0-rc.1")
+    // Datastore
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.core)
 }

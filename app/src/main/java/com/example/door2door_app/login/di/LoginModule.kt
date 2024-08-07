@@ -22,5 +22,5 @@ val loginModule = module {
     single<ILoginRepository> { LoginRepository(get()) }
 
     //usecase
-    single { LoginUseCase(get()) }
+    single { LoginUseCase(get(), get()) }
 }

@@ -11,17 +11,28 @@ import com.example.door2door_app.delivery.ui.DeliveryScreen
 import com.example.door2door_app.login.ui.LoginScreen
 import com.example.door2door_app.main.ui.MainScreen
 import com.example.door2door_app.register.ui.RegisterScreen
+import com.example.door2door_app.splash.ui.SplashScreen
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = AppDestinations.LoginScreenPath()) {
+    NavHost(navController = navController, startDestination = AppDestinations.SplashScreenPath) {
+        composable<AppDestinations.SplashScreenPath> {
+            SplashScreen(
+                onSplashScreenEnd = {
+                    navigateAndForget(
+                        navController = navController,
+                        destination = it,
+                    )
+                }
+            )
+        }
         composable<AppDestinations.LoginScreenPath> {
             LoginScreen(
                 onSuccessfulLogin = {
                     navigateAndForget(
                         navController = navController,
-                        destination = AppDestinations.HomeScreenPath,
+                        destination = AppDestinations.MainScreenPath,
                     )
                 },
                 onRegisterClick = {
@@ -37,12 +48,12 @@ fun AppNavigation() {
                 onSuccessfulRegister = {
                     navigateAndForget(
                         navController = navController,
-                        destination = AppDestinations.HomeScreenPath,
+                        destination = AppDestinations.MainScreenPath,
                     )
                 }
             )
         }
-        composable<AppDestinations.HomeScreenPath> {
+        composable<AppDestinations.MainScreenPath> {
             MainScreen()
         }
     }
