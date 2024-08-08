@@ -1,5 +1,8 @@
 package com.example.door2door_app.networking.factory
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import com.example.door2door_app.user.domain.repository.preferences.IUserPreferences
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.engine.cio.endpoint
@@ -20,7 +23,9 @@ import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 
 object HttpClientFactory : KoinComponent {
-    fun getHttpClient(): HttpClient {
+    fun getHttpClient(
+        preferences: IUserPreferences
+    ): HttpClient {
         return HttpClient(CIO) {
             engine {
                 endpoint {
@@ -48,7 +53,7 @@ object HttpClientFactory : KoinComponent {
             }
         }.apply {
             plugin(HttpSend).intercept { request ->
-//                request.header("Authorization", "Bearer ${prefs.getToken()}")
+                request.header("Authorization", "Bearer ${preferences.getToken()}")
                 execute(request)
             }
         }

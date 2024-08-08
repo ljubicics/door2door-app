@@ -5,11 +5,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -40,13 +42,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.door2door_app.R
+import com.example.door2door_app.navigation.AppDestinations
+import com.example.door2door_app.navigation.IDestination
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(
     loginViewModel: LoginViewModel = koinViewModel(),
-    onSuccessfulLogin: () -> Unit,
+    onSuccessfulLogin: (IDestination) -> Unit,
     onRegisterClick: () -> Unit
 ) {
 
@@ -55,7 +59,10 @@ fun LoginScreen(
 
     LaunchedEffect(key1 = null) {
         loginViewModel.nextScreen.collect {
-            onSuccessfulLogin()
+            when (it) {
+                NextScreen.Customer -> onSuccessfulLogin(AppDestinations.Customer)
+                NextScreen.DeliveryDriver -> onSuccessfulLogin(AppDestinations.DeliveryDriver)
+            }
         }
     }
 
@@ -69,15 +76,17 @@ fun LoginScreen(
         }
     }
 
-    LoginScreenContent(
-        modifier = Modifier,
-        username = state.username,
-        password = state.password,
-        onUsernameChange = loginViewModel::setUsername,
-        onPasswordChange = loginViewModel::setPassword,
-        onLoginClicked = loginViewModel::onLoginClick,
-        onRegisterClick = onRegisterClick
-    )
+    Box(modifier = Modifier.imePadding()) {
+        LoginScreenContent(
+            modifier = Modifier,
+            username = state.username,
+            password = state.password,
+            onUsernameChange = loginViewModel::setUsername,
+            onPasswordChange = loginViewModel::setPassword,
+            onLoginClicked = loginViewModel::onLoginClick,
+            onRegisterClick = onRegisterClick
+        )
+    }
 }
 
 @Composable
