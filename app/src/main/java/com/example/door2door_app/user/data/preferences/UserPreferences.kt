@@ -5,7 +5,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.door2door_app.user.domain.model.Account
-import com.example.door2door_app.user.domain.model.Role
 import com.example.door2door_app.user.domain.model.RoleName
 import com.example.door2door_app.user.domain.model.User
 import com.example.door2door_app.user.domain.repository.preferences.IUserPreferences
@@ -24,6 +23,12 @@ class UserPreferences(
     override suspend fun storeToken(token: String) {
         preferences.edit { preferences ->
             preferences[tokenKey] = token
+        }
+    }
+
+    override suspend fun clearToken() {
+        preferences.edit { preferences ->
+            preferences.remove(tokenKey)
         }
     }
 
