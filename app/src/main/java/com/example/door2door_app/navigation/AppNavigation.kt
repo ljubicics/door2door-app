@@ -9,7 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.door2door_app.delivery.ui.DeliveryScreen
 import com.example.door2door_app.login.ui.LoginScreen
-import com.example.door2door_app.main.ui.MainScreen
+import com.example.door2door_app.main.ui.CustomerScreen
+import com.example.door2door_app.main.ui.DeliveryDriverScreen
 import com.example.door2door_app.register.ui.RegisterScreen
 import com.example.door2door_app.splash.ui.SplashScreen
 
@@ -32,7 +33,7 @@ fun AppNavigation() {
                 onSuccessfulLogin = {
                     navigateAndForget(
                         navController = navController,
-                        destination = AppDestinations.MainScreenPath,
+                        destination = it,
                     )
                 },
                 onRegisterClick = {
@@ -48,26 +49,45 @@ fun AppNavigation() {
                 onSuccessfulRegister = {
                     navigateAndForget(
                         navController = navController,
-                        destination = AppDestinations.MainScreenPath,
+                        destination = AppDestinations.Customer,
                     )
                 }
             )
         }
-        composable<AppDestinations.MainScreenPath> {
-            MainScreen()
+        composable<AppDestinations.Customer> {
+            CustomerScreen()
+        }
+        composable<AppDestinations.DeliveryDriver> {
+            DeliveryDriverScreen()
         }
     }
 }
 
 @Composable
-fun MainNavGraph(
+fun CustomerNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController
 ) {
-    NavHost(navController = navController, startDestination = MainDestinations.DeliveryScreenPath) {
-        composable<MainDestinations.DeliveryScreenPath> {
+    NavHost(navController = navController, startDestination = CustomerDestinations.DeliveryScreenPath) {
+        composable<CustomerDestinations.DeliveryScreenPath> {
             DeliveryScreen(
-                modifier = modifier
+                modifier = modifier,
+                text = "Customer"
+            )
+        }
+    }
+}
+
+@Composable
+fun DeliveryDriverNavGraph(
+    modifier: Modifier = Modifier,
+    navController: NavHostController
+) {
+    NavHost(navController = navController, startDestination = DeliveryDriverDestinations.DeliveryScreenPath) {
+        composable<DeliveryDriverDestinations.DeliveryScreenPath> {
+            DeliveryScreen(
+                modifier = modifier,
+                text = "Delivery Driver"
             )
         }
     }

@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.door2door_app.navigation.IDestination
-import com.example.door2door_app.navigation.MainDestinations
+import com.example.door2door_app.navigation.CustomerDestinations
 
 @Composable
 fun BottomNavigationBar(
@@ -27,13 +27,13 @@ fun BottomNavigationBar(
     val items = listOf(
         BottomNavigationItem(
             title = "Home",
-            path = MainDestinations.DeliveryScreenPath,
+            path = CustomerDestinations.DeliveryScreenPath,
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Default.Home
         ),
         BottomNavigationItem(
             title = "Payment",
-            path = MainDestinations.DeliveryScreenPath,
+            path = CustomerDestinations.DeliveryScreenPath,
             selectedIcon = Icons.Filled.Add,
             unselectedIcon = Icons.Default.Add,
         )

@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -22,15 +21,16 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SplashScreen(
     splashViewModel: SplashViewModel = koinViewModel(),
-    onSplashScreenEnd: (IDestination) -> Unit
+    onSplashScreenEnd: (IDestination) -> Unit = {}
 ) {
     LaunchedEffect(key1 = null) {
         splashViewModel.checkIfUserLoggedIn()
         delay(800)
         splashViewModel.nextScreen.collect {
             when (it) {
-                NextScreen.Login -> onSplashScreenEnd.invoke(AppDestinations.LoginScreenPath())
-                NextScreen.Main -> onSplashScreenEnd.invoke(AppDestinations.MainScreenPath)
+                NextScreen.Login -> onSplashScreenEnd(AppDestinations.LoginScreenPath())
+                NextScreen.Customer -> onSplashScreenEnd(AppDestinations.Customer)
+                NextScreen.DeliveryDriver -> onSplashScreenEnd(AppDestinations.DeliveryDriver)
             }
         }
     }

@@ -42,13 +42,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.door2door_app.R
+import com.example.door2door_app.navigation.AppDestinations
+import com.example.door2door_app.navigation.IDestination
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(
     loginViewModel: LoginViewModel = koinViewModel(),
-    onSuccessfulLogin: () -> Unit,
+    onSuccessfulLogin: (IDestination) -> Unit,
     onRegisterClick: () -> Unit
 ) {
 
@@ -57,7 +59,10 @@ fun LoginScreen(
 
     LaunchedEffect(key1 = null) {
         loginViewModel.nextScreen.collect {
-            onSuccessfulLogin()
+            when (it) {
+                NextScreen.Customer -> onSuccessfulLogin(AppDestinations.Customer)
+                NextScreen.DeliveryDriver -> onSuccessfulLogin(AppDestinations.DeliveryDriver)
+            }
         }
     }
 

@@ -12,17 +12,29 @@ sealed class AppDestinations : IDestination {
     data class LoginScreenPath(val path: String = "") : AppDestinations()
 
     @Serializable
-    data object MainScreenPath : AppDestinations()
+    data object Customer : AppDestinations()
+
+    @Serializable
+    data object DeliveryDriver : AppDestinations()
 
     @Serializable
     data object RegisterScreenPath : AppDestinations()
 }
 
-sealed class MainDestinations : IDestination {
+sealed class CustomerDestinations : IDestination {
 
     @Serializable
-    data object HomeScreenPath : MainDestinations()
+    data object HomeScreenPath : CustomerDestinations()
 
     @Serializable
-    data object DeliveryScreenPath : MainDestinations()
+    data object DeliveryScreenPath : CustomerDestinations()
+}
+
+sealed class DeliveryDriverDestinations : IDestination {
+
+    @Serializable
+    data object HomeScreenPath : DeliveryDriverDestinations()
+
+    @Serializable
+    data object DeliveryScreenPath : DeliveryDriverDestinations()
 }
