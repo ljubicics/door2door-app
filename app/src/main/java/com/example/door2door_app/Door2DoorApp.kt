@@ -1,6 +1,7 @@
 package com.example.door2door_app
 
 import android.app.Application
+import com.example.door2door_app.delivery.di.deliveryModule
 import com.example.door2door_app.login.di.loginModule
 import com.example.door2door_app.networking.di.networkingModule
 import com.example.door2door_app.preferences.di.preferencesModule
@@ -27,6 +28,7 @@ class Door2DoorApp : Application() {
                 registerModule,
                 userModule,
                 splashModule,
+                deliveryModule
             )
         }
     }

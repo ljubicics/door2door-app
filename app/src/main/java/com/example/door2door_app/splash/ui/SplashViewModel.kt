@@ -41,7 +41,7 @@ class SplashViewModel(
         val account = checkSavedUserRoleUseCase()
         when (account.role) {
             RoleName.ROLE_DELIVERY -> _nextScreen.send(NextScreen.DeliveryDriver)
-            RoleName.ROLE_NORMAL_USER -> _nextScreen.send(NextScreen.Customer)
+            RoleName.ROLE_CUSTOMER -> _nextScreen.send(NextScreen.Customer)
             RoleName.UNKNOWN -> {
                 preferences.clearToken()
                 _nextScreen.send(NextScreen.Login)

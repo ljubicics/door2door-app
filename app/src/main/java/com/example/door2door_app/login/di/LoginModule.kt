@@ -7,8 +7,7 @@ import com.example.door2door_app.login.domain.repository.datasource.IRemoteDataS
 import com.example.door2door_app.login.domain.usecase.LoginUseCase
 import com.example.door2door_app.login.domain.usecase.StoreAccountInfoUseCase
 import com.example.door2door_app.login.ui.LoginViewModel
-import com.example.door2door_app.networking.factory.HttpClientFactory
-import io.ktor.client.HttpClient
+import com.example.door2door_app.navigation.bottom.BottomNavigationViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -16,6 +15,7 @@ val loginModule = module {
 
     //viewmodel
     viewModelOf(::LoginViewModel)
+    viewModelOf(::BottomNavigationViewModel)
 
     single<IRemoteDataSource> { RemoteDataSource(get()) }
     single<ILoginRepository> { LoginRepository(get()) }

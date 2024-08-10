@@ -1,15 +1,15 @@
 package com.example.door2door_app.ui.theme
 import androidx.compose.ui.graphics.Color
 
-val primaryLight = Color(0xFF0D1B2A)
+val primaryLight = Color(0xFF03045E)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFF1A2837)
 val onPrimaryContainerLight = Color(0xFFA6B3C7)
-val secondaryLight = Color(0xFF3C526B)
+val secondaryLight = Color(0xFF0077B6)
 val onSecondaryLight = Color(0xFFFFFFFF)
 val secondaryContainerLight = Color(0xFF607691)
 val onSecondaryContainerLight = Color(0xFFFFFFFF)
-val tertiaryLight = Color(0xFF5D5F5C)
+val tertiaryLight = Color(0xFFCAF0F8)
 val onTertiaryLight = Color(0xFFFFFFFF)
 val tertiaryContainerLight = Color(0xFFE4E5E1)
 val onTertiaryContainerLight = Color(0xFF474A47)
