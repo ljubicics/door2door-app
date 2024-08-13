@@ -47,7 +47,7 @@ private fun DeliveryItemContent(
         modifier = Modifier
             .fillMaxWidth()
             .background(color = MaterialTheme.colorScheme.surface)
-            .padding(16.dp),
+            .padding(paddingValues = PaddingValues(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp)),
     ) {
         Column(
             modifier = Modifier

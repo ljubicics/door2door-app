@@ -1,5 +1,7 @@
 package com.example.door2door_app.delivery.ui.components
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,10 +20,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import com.example.door2door_app.delivery.domain.model.Delivery
 import com.example.door2door_app.delivery.domain.model.DeliveryStatus
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
@@ -37,6 +41,8 @@ fun DeliveryActions(
         DeliveryStatus.ACCEPTED -> "Accepted"
         else -> "Pending"
     }
+
+    val context = LocalContext.current
 
     Card(
         Modifier
@@ -101,7 +107,12 @@ fun DeliveryActions(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(paddingValues = PaddingValues(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)),
-                onClick = { /*TODO*/ },
+                onClick = {
+                    val gmmIntentUri = Uri.parse("google.navigation:q=Banatska+23,+Belgrade+Serbia")
+                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                    mapIntent.setPackage("com.google.android.apps.maps")
+                    startActivity(context, mapIntent, null)
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.tertiary,
                     contentColor = MaterialTheme.colorScheme.secondary,

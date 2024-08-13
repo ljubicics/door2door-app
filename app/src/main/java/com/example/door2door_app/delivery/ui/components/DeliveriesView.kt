@@ -1,7 +1,9 @@
 package com.example.door2door_app.delivery.ui.components
 
+import android.widget.Space
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,6 +38,7 @@ import com.example.door2door_app.user.domain.model.Account
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DeliveriesView(
+    modifier: Modifier = Modifier,
     deliveries: List<Delivery>,
     account: Account? = null
 ) {
@@ -64,14 +67,9 @@ fun DeliveriesView(
         }
     }
 
-    LazyColumn {
-        item {
-            Spacer(
-                modifier = Modifier
-                    .height(350.dp)
-                    .background(color = Color.Transparent)
-            )
-        }
+    LazyColumn(
+        modifier = modifier
+    ) {
         stickyHeader {
             Row(
                 modifier = Modifier
@@ -100,13 +98,10 @@ fun DeliveriesView(
                 trackingCode = delivery.trackingCode ?: "UG123123UG"
             )
         }
-
         item {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillParentMaxHeight()
-                    .background(MaterialTheme.colorScheme.surface)
+            Box(modifier = Modifier
+                .height(80.dp)
+                .background(color = MaterialTheme.colorScheme.surface)
             )
         }
     }
