@@ -1,5 +1,7 @@
 package com.example.door2door_app.delivery.data.datasource
 
+import com.example.door2door_app.delivery.data.dto.DeliveryDto
+import com.example.door2door_app.delivery.data.mapper.DeliveryMapper
 import com.example.door2door_app.delivery.domain.model.Delivery
 import com.example.door2door_app.networking.response.RepositoryResponse
 import com.example.door2door_app.networking.util.safeRequest
@@ -11,8 +13,44 @@ class DeliveryRemoteDataSource(
     private val httpClient: HttpClient
 ) {
     suspend fun fetchAllDriverDeliveries(driverId: Long): RepositoryResponse<List<Delivery>> {
-        val response = httpClient.safeRequest<List<Delivery>> {
+        val response = httpClient.safeRequest<List<DeliveryDto>> {
             url("v1/deliveries/driver?id=$driverId")
+            method = HttpMethod.Get
+        }
+
+        return when (response) {
+            is RepositoryResponse.Error -> response
+            is RepositoryResponse.Success -> RepositoryResponse.Success(response.body.map { DeliveryMapper.map(it) })
+        }
+    }
+
+    suspend fun fetchAllDriverInProgressDeliveries(driverId: Long): RepositoryResponse<Delivery> {
+        val response = httpClient.safeRequest<DeliveryDto> {
+            url("v1/deliveries/driver/inProgress?id=$driverId")
+            method = HttpMethod.Get
+        }
+
+        return when (response) {
+            is RepositoryResponse.Error -> response
+            is RepositoryResponse.Success -> RepositoryResponse.Success(DeliveryMapper.map(response.body))
+        }
+    }
+
+    suspend fun fetchAllUserDeliveries(userId: Long): RepositoryResponse<List<Delivery>> {
+        val response = httpClient.safeRequest<List<Delivery>> {
+            url("v1/deliveries/customer?id=$userId")
+            method = HttpMethod.Get
+        }
+
+        return when (response) {
+            is RepositoryResponse.Error -> response
+            is RepositoryResponse.Success -> RepositoryResponse.Success(response.body)
+        }
+    }
+
+    suspend fun fetchAllUserInProgressDeliveries(userId: Long): RepositoryResponse<List<Delivery>> {
+        val response = httpClient.safeRequest<List<Delivery>> {
+            url("v1/deliveries/customer/inProgress?id=$userId")
             method = HttpMethod.Get
         }
 

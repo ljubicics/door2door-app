@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Role(
-    val id: Long,
-    val name: RoleName
+    val id: Long = 0,
+    val name: RoleName = RoleName.ROLE_CUSTOMER
 )

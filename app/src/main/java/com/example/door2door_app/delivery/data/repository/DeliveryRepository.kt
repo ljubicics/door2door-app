@@ -9,18 +9,18 @@ class DeliveryRepository(
     private val remoteDataSource: DeliveryRemoteDataSource
 ) : IDeliveryRepository {
     override suspend fun fetchAllDriverDeliveries(accountId: Long): RepositoryResponse<List<Delivery>> {
-        return remoteDataSource.fetchAllDriverDeliveries(accountId)
+        return remoteDataSource.fetchAllDriverDeliveries(driverId = accountId)
     }
 
     override suspend fun fetchAllUserDeliveries(accountId: Long): RepositoryResponse<List<Delivery>> {
-        TODO("Not yet implemented")
+        return remoteDataSource.fetchAllUserDeliveries(userId = accountId)
     }
 
     override suspend fun fetchDriverInProgressDelivery(accountId: Long): RepositoryResponse<Delivery> {
-        TODO("Not yet implemented")
+        return remoteDataSource.fetchAllDriverInProgressDeliveries(driverId = accountId)
     }
 
-    override suspend fun fetchUserInProgressDelivery(accountId: Long): RepositoryResponse<Delivery> {
-        TODO("Not yet implemented")
+    override suspend fun fetchUserInProgressDelivery(accountId: Long): RepositoryResponse<List<Delivery>> {
+        return remoteDataSource.fetchAllUserInProgressDeliveries(userId = accountId)
     }
 }

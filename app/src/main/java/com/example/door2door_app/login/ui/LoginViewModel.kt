@@ -46,6 +46,7 @@ class LoginViewModel(
                     RoleName.ROLE_DELIVERY -> _nextScreen.send(NextScreen.DeliveryDriver)
                     RoleName.ROLE_CUSTOMER -> _nextScreen.send(NextScreen.Customer)
                     RoleName.UNKNOWN -> _loginError.send(Unit)
+                    RoleName.ROLE_ADMIN -> _loginError.send(Unit)
                 }
             } else {
                 _loginError.send(Unit)

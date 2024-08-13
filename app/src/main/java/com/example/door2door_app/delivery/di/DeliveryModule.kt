@@ -4,6 +4,7 @@ import com.example.door2door_app.delivery.data.datasource.DeliveryRemoteDataSour
 import com.example.door2door_app.delivery.data.repository.DeliveryRepository
 import com.example.door2door_app.delivery.domain.repository.IDeliveryRepository
 import com.example.door2door_app.delivery.domain.usecase.GetAllFinishedDriverDeliveriesUseCase
+import com.example.door2door_app.delivery.domain.usecase.GetInProgressDriverDeliveryUseCase
 import com.example.door2door_app.delivery.ui.driver.DriverDeliveriesViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
@@ -16,4 +17,5 @@ val deliveryModule = module {
 
     // usecase
     single { GetAllFinishedDriverDeliveriesUseCase(get(), get()) }
+    single { GetInProgressDriverDeliveryUseCase(get(), get()) }
 }

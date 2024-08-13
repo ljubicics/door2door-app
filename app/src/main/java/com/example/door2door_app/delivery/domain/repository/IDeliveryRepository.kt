@@ -7,5 +7,5 @@ interface IDeliveryRepository {
     suspend fun fetchAllDriverDeliveries(accountId: Long): RepositoryResponse<List<Delivery>>
     suspend fun fetchAllUserDeliveries(accountId: Long): RepositoryResponse<List<Delivery>>
     suspend fun fetchDriverInProgressDelivery(accountId: Long): RepositoryResponse<Delivery>
-    suspend fun fetchUserInProgressDelivery(accountId: Long): RepositoryResponse<Delivery>
+    suspend fun fetchUserInProgressDelivery(accountId: Long): RepositoryResponse<List<Delivery>>
 }

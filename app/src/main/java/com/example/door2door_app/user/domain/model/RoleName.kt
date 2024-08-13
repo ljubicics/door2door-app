@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 enum class RoleName {
     ROLE_CUSTOMER,
     ROLE_DELIVERY,
+    ROLE_ADMIN,
     UNKNOWN
 }

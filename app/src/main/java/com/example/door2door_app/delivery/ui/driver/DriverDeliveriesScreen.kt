@@ -1,26 +1,29 @@
 package com.example.door2door_app.delivery.ui.driver
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.door2door_app.delivery.domain.model.Delivery
-import com.example.door2door_app.delivery.ui.driver.components.DeliveriesView
-import com.example.door2door_app.delivery.ui.driver.components.DeliveryInProgressItem
+import com.example.door2door_app.delivery.ui.components.DeliveriesView
+import com.example.door2door_app.delivery.ui.components.DeliveryInProgressItem
+import com.example.door2door_app.delivery.ui.components.NoDeliveriesView
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
+import com.example.door2door_app.user.domain.model.Account
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -29,48 +32,55 @@ fun DriverDeliveriesScreen(
 ) {
     val state by driverDeliveriesViewModel.state.collectAsStateWithLifecycle()
 
+    driverDeliveriesViewModel.loadDriverInfo()
+    driverDeliveriesViewModel.loadDeliveries()
+
     DriverDeliveriesScreenContent(
-        deliveries = state.deliveries
+        account = state.account ?: Account(),
+        inProgressDelivery = state.inProgressDelivery ?: Delivery(),
+        deliveries = state.finishedDeliveries
     )
 }
 
-@Composable
 @OptIn(ExperimentalMaterial3Api::class)
+@Composable
 private fun DriverDeliveriesScreenContent(
+    account: Account = Account(),
+    inProgressDelivery: Delivery = Delivery(),
     deliveries: List<Delivery> = emptyList()
 ) {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
+            TopAppBar(
                 title = {
                     Text(
-                        text = "Your Deliveries",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 36.sp
+                        text = " - Hello, ${account.username}",
+                        fontWeight = FontWeight.W300,
+                        fontSize = 26.sp
                     )
-                }
+                },
+                colors = TopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    scrolledContainerColor = MaterialTheme.colorScheme.primary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
+                )
             )
         }
     ) { innerPadding ->
-//        val list = mutableListOf<Delivery>().apply {
-//            repeat(10) {
-//                add(
-//                    Delivery(
-//                        trackingCode = "UG123123UG"
-//                    )
-//                )
-//            }
-//        }
-
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues = PaddingValues(top = innerPadding.calculateTopPadding())),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .background(color = MaterialTheme.colorScheme.primary)
+                .padding(paddingValues = PaddingValues(top = innerPadding.calculateTopPadding()))
         ) {
-            DeliveryInProgressItem(delivery = deliveries.firstOrNull())
-            DeliveriesView(deliveries = deliveries)
+            DeliveryInProgressItem(delivery = inProgressDelivery)
+            if (deliveries.size > 0) {
+                DeliveriesView(deliveries = deliveries)
+            } else {
+                NoDeliveriesView()
+            }
         }
     }
 }
@@ -78,7 +88,16 @@ private fun DriverDeliveriesScreenContent(
 @Preview
 @Composable
 fun PreviewDriverDeliverisScreen() {
+    val list = mutableListOf<Delivery>().apply {
+        repeat(10) {
+            add(
+                Delivery(
+                    trackingCode = "UG123123UG"
+                )
+            )
+        }
+    }
     Door2DoorAppTheme {
-        DriverDeliveriesScreen()
+        DriverDeliveriesScreenContent(Account(), Delivery(), list)
     }
 }
