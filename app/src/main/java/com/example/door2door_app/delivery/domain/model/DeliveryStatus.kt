@@ -4,5 +4,6 @@ enum class DeliveryStatus {
     PENDING,
     ACCEPTED,
     IN_PROGRESS,
-    DELIVERED
+    DELIVERED,
+    PICKED_UP
 }

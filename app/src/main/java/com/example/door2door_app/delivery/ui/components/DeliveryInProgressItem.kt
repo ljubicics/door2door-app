@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.door2door_app.R
 import com.example.door2door_app.delivery.domain.model.Delivery
+import com.example.door2door_app.delivery.domain.model.DeliveryStatus
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 
 @Composable
@@ -44,9 +45,9 @@ fun DeliveryInProgressItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(250.dp)
+            .height(350.dp)
             .padding(paddingValues = PaddingValues(16.dp))
-            .clip(shape = RoundedCornerShape(20.dp)),
+            .clip(shape = RoundedCornerShape(40.dp)),
         colors = CardColors(
             contentColor = MaterialTheme.colorScheme.onPrimary,
             containerColor = MaterialTheme.colorScheme.secondary,
@@ -59,110 +60,66 @@ fun DeliveryInProgressItem(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(paddingValues = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp)),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(
-                    modifier = modifier
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.surface,
-                                shape = CircleShape
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            modifier = Modifier
-                                .size(70.dp)
-                                .padding(12.dp),
-                            painter = painterResource(
-                                id = R.drawable.delivery_package_color
-                            ),
-                            contentDescription = null
-                        )
-                    }
-                }
-                Column(
-                    modifier = modifier
-                        .weight(2f)
-                        .padding(start = 16.dp),
-                ) {
-                    Row {
-                        Text(
-                            text = delivery?.trackingCode ?: stringResource(R.string.no_tracking_code),
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Row {
-                        Text(
-                            text = stringResource(R.string.delivery_in_progress),
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.outline
-                        )
-                    }
-                }
-            }
+            InProgressDeliveryInfo(modifier, delivery)
             Spacer(modifier = Modifier.height(32.dp))
-            Card(
-                Modifier
-                    .padding(paddingValues = PaddingValues(start = 16.dp, end = 16.dp)),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                )
-            ) {
-                DeliveryInProgressInfo(modifier, delivery)
-            }
+            DeliveryActions(modifier, delivery)
         }
     }
 }
 
 @Composable
-private fun DeliveryInProgressInfo(
+private fun InProgressDeliveryInfo(
     modifier: Modifier,
     delivery: Delivery?
 ) {
     Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(paddingValues = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp)),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
-            modifier = modifier.weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            modifier = modifier
         ) {
-            Text(
-                text = delivery?.status.toString(),
-                fontWeight = FontWeight.Normal,
-                fontSize = 22.sp
-            )
+            Box(
+                modifier = Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.surface,
+                        shape = CircleShape
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    modifier = Modifier
+                        .size(70.dp)
+                        .padding(12.dp),
+                    painter = painterResource(
+                        id = R.drawable.delivery_package_color
+                    ),
+                    contentDescription = null
+                )
+            }
         }
         Column(
-            modifier = modifier.weight(1f),
-            horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.Center
+            modifier = modifier
+                .weight(2f)
+                .padding(start = 16.dp),
         ) {
-            Button(
-                modifier = Modifier.padding(8.dp),
-                onClick = {},
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.secondary,
-                )
-            ) {
+            Row {
                 Text(
-                    text = "Details >",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 22.sp
+                    text = delivery?.trackingCode ?: stringResource(R.string.no_tracking_code),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Row {
+                Text(
+                    text = stringResource(R.string.delivery_in_progress),
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.outline
                 )
             }
         }

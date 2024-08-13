@@ -59,4 +59,16 @@ class DeliveryRemoteDataSource(
             is RepositoryResponse.Success -> RepositoryResponse.Success(response.body)
         }
     }
+
+    suspend fun changeDeliveryStatus(deliveryId: Long, status: String): RepositoryResponse<Boolean> {
+        val response = httpClient.safeRequest<Boolean> {
+            url("v1/deliveries/changeStatus?id=$deliveryId&status=$status")
+            method = HttpMethod.Put
+        }
+
+        return when (response) {
+            is RepositoryResponse.Error -> response
+            is RepositoryResponse.Success -> RepositoryResponse.Success(response.body)
+        }
+    }
 }

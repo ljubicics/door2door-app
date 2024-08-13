@@ -8,6 +8,7 @@ import com.example.door2door_app.user.domain.model.RoleName
 object DeliveryMapper {
     fun map(dto: DeliveryDto): Delivery {
         return Delivery(
+            id = dto.id,
             timeStarted = dto.timeStarted,
             timeDelivered = dto.timeDelivered,
             trackingCode = dto.trackingCode,

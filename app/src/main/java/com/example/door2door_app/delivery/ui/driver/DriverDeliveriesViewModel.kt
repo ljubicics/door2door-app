@@ -3,6 +3,8 @@ package com.example.door2door_app.delivery.ui.driver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.door2door_app.delivery.domain.model.Delivery
+import com.example.door2door_app.delivery.domain.model.DeliveryStatus
+import com.example.door2door_app.delivery.domain.usecase.ChangeDeliveryStatusUseCase
 import com.example.door2door_app.delivery.domain.usecase.GetAllFinishedDriverDeliveriesUseCase
 import com.example.door2door_app.delivery.domain.usecase.GetInProgressDriverDeliveryUseCase
 import com.example.door2door_app.user.domain.model.Account
@@ -17,6 +19,7 @@ import kotlinx.coroutines.launch
 class DriverDeliveriesViewModel(
     private val getAllFinishedDriverDeliveriesUseCase: GetAllFinishedDriverDeliveriesUseCase,
     private val getInProgressDriverDeliveryUseCase: GetInProgressDriverDeliveryUseCase,
+    private val changeDeliveryStatusUseCase: ChangeDeliveryStatusUseCase,
     private val preferences: IUserPreferences
 ) : ViewModel() {
 
@@ -41,6 +44,25 @@ class DriverDeliveriesViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val account = preferences.getAccountData()
             _state.update { it.copy(account = account) }
+        }
+    }
+
+    fun changeDeliveryStatus() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val deliveryId = inProgressDelivery()?.id ?: 0L
+            val result = when (inProgressDelivery()?.status) {
+                DeliveryStatus.ACCEPTED -> changeDeliveryStatusUseCase(
+                    deliveryId = deliveryId,
+                    DeliveryStatus.IN_PROGRESS
+                )
+
+                DeliveryStatus.IN_PROGRESS -> changeDeliveryStatusUseCase(
+                    deliveryId = deliveryId,
+                    DeliveryStatus.DELIVERED
+                )
+
+                else -> return@launch
+            }
         }
     }
 

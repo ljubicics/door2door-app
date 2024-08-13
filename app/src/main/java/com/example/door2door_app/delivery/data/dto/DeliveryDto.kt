@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DeliveryDto(
+    val id: Long = 0,
     val timeStarted: Long = 0,
     val timeDelivered: Long = 0,
     val trackingCode: String? = null,
