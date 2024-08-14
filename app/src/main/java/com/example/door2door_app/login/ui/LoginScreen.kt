@@ -199,14 +199,14 @@ fun LoginForm(
             Text(
                 text = "Don't have an account? ",
                 fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.secondary
             )
             Text(
                 modifier = modifier.clickable {
                     onRegisterClick()
                 },
                 text = "Register here",
-                color = MaterialTheme.colorScheme.error
+                color = Color.Blue
             )
         }
 

@@ -31,6 +31,7 @@ import com.example.door2door_app.delivery.ui.components.DeliveryInProgressItem
 import com.example.door2door_app.delivery.ui.components.NoDeliveriesView
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 import com.example.door2door_app.user.domain.model.Account
+import com.example.door2door_app.user.domain.model.User
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -44,6 +45,7 @@ fun DriverDeliveriesScreen(
 
     DriverDeliveriesScreenContent(
         account = state.account ?: Account(),
+        user = state.user ?: User(),
         inProgressDelivery = state.inProgressDelivery ?: Delivery(),
         deliveries = state.finishedDeliveries
     )
@@ -53,6 +55,7 @@ fun DriverDeliveriesScreen(
 @Composable
 private fun DriverDeliveriesScreenContent(
     account: Account = Account(),
+    user: User = User(),
     inProgressDelivery: Delivery = Delivery(),
     deliveries: List<Delivery> = emptyList()
 ) {
@@ -79,7 +82,7 @@ private fun DriverDeliveriesScreenContent(
             TopAppBar(
                 title = {
                     Text(
-                        text = " - Hello, ${account.username}",
+                        text = " - Hello, ${user.name}",
                         fontWeight = FontWeight.W300,
                         fontSize = 26.sp
                     )
@@ -118,6 +121,6 @@ fun PreviewDriverDeliverisScreen() {
         }
     }
     Door2DoorAppTheme {
-        DriverDeliveriesScreenContent(Account(), Delivery(), list)
+        DriverDeliveriesScreenContent(Account(username = "Username"), User(name = "Strahinja"), Delivery(), list)
     }
 }

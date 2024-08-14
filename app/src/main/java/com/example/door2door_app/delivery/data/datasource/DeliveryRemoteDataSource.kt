@@ -1,7 +1,7 @@
 package com.example.door2door_app.delivery.data.datasource
 
 import com.example.door2door_app.delivery.data.dto.DeliveryDto
-import com.example.door2door_app.delivery.data.mapper.DeliveryMapper
+import com.example.door2door_app.delivery.data.repository.mapper.DeliveryMapper
 import com.example.door2door_app.delivery.domain.model.Delivery
 import com.example.door2door_app.networking.response.RepositoryResponse
 import com.example.door2door_app.networking.util.safeRequest

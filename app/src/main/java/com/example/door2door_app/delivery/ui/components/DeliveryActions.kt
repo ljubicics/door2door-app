@@ -53,72 +53,69 @@ fun DeliveryActions(
             contentColor = MaterialTheme.colorScheme.onPrimary
         )
     ) {
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+            Row(
+                modifier = Modifier.padding(paddingValues = PaddingValues(16.dp)),
             ) {
                 Text(
-                    text = deliveryStatusText,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 22.sp
+                    text = "Manage current delivery",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Normal
                 )
             }
-            Column(
-                modifier = modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
+            Row {
                 Button(
-                    modifier = Modifier.padding(paddingValues = PaddingValues(end = 16.dp)),
-                    onClick = {},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(paddingValues = PaddingValues(start = 8.dp, end = 8.dp, top = 2.dp, bottom = 4.dp)),
+                    onClick = {
+                        val gmmIntentUri =
+                            Uri.parse("google.navigation:q=Trg+Republike,+Belgrade+Serbia")
+                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                        mapIntent.setPackage("com.google.android.apps.maps")
+                        startActivity(context, mapIntent, null)
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.tertiary,
                         contentColor = MaterialTheme.colorScheme.secondary,
                     )
                 ) {
                     Text(
-                        text = "Details >",
+                        text = "Accept",
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
                     )
                 }
             }
-        }
-        Row {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(paddingValues = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 4.dp)),
-                onClick = { /*TODO*/ },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.secondary,
-                )
-            ) {
-                Text(text = "Accept")
-            }
-        }
-        Row {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(paddingValues = PaddingValues(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)),
-                onClick = {
-                    val gmmIntentUri = Uri.parse("google.navigation:q=Banatska+23,+Belgrade+Serbia")
-                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                    mapIntent.setPackage("com.google.android.apps.maps")
-                    startActivity(context, mapIntent, null)
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.secondary,
-                )
-            ) {
-                Text(text = "Navigate to")
+            Row {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(paddingValues = PaddingValues(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)),
+                    onClick = {
+                        if (delivery != null) {
+                            val gmmIntentUri =
+                                Uri.parse("google.navigation:q=${delivery.pickupLocation},+Belgrade+Serbia")
+                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                            mapIntent.setPackage("com.google.android.apps.maps")
+                            startActivity(context, mapIntent, null)
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.tertiary,
+                        contentColor = MaterialTheme.colorScheme.secondary,
+                    )
+                ) {
+                    Text(
+                        text = "Navigate to",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
             }
         }
     }

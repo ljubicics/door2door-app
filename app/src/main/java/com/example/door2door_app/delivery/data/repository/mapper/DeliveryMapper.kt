@@ -1,4 +1,4 @@
-package com.example.door2door_app.delivery.data.mapper
+package com.example.door2door_app.delivery.data.repository.mapper
 
 import com.example.door2door_app.delivery.data.dto.DeliveryDto
 import com.example.door2door_app.delivery.domain.model.Delivery

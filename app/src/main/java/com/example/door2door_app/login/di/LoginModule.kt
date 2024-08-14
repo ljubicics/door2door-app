@@ -6,10 +6,12 @@ import com.example.door2door_app.login.domain.repository.ILoginRepository
 import com.example.door2door_app.login.domain.repository.datasource.IRemoteDataSource
 import com.example.door2door_app.login.domain.usecase.LoginUseCase
 import com.example.door2door_app.login.domain.usecase.StoreAccountInfoUseCase
+import com.example.door2door_app.login.domain.usecase.StoreUserInfoUseCase
 import com.example.door2door_app.login.ui.LoginViewModel
 import com.example.door2door_app.navigation.bottom.BottomNavigationViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
+import kotlin.math.sin
 
 val loginModule = module {
 
@@ -23,4 +25,5 @@ val loginModule = module {
     //usecase
     single { LoginUseCase(get(), get()) }
     single { StoreAccountInfoUseCase(get(), get()) }
+    single { StoreUserInfoUseCase(get(), get()) }
 }

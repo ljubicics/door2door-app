@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.door2door_app.login.domain.usecase.LoginUseCase
 import com.example.door2door_app.login.domain.usecase.StoreAccountInfoUseCase
+import com.example.door2door_app.login.domain.usecase.StoreUserInfoUseCase
 import com.example.door2door_app.user.domain.model.RoleName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -21,7 +22,8 @@ sealed interface NextScreen {
 
 class LoginViewModel(
     private val loginUseCase: LoginUseCase,
-    private val storeAccountInfoUseCase: StoreAccountInfoUseCase
+    private val storeAccountInfoUseCase: StoreAccountInfoUseCase,
+    private val storeUserInfoUseCase: StoreUserInfoUseCase
 ) : ViewModel() {
 
     data class State(
@@ -48,6 +50,7 @@ class LoginViewModel(
                     RoleName.UNKNOWN -> _loginError.send(Unit)
                     RoleName.ROLE_ADMIN -> _loginError.send(Unit)
                 }
+                storeUserInfoUseCase(username())
             } else {
                 _loginError.send(Unit)
             }

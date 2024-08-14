@@ -7,5 +7,6 @@ import com.example.door2door_app.user.domain.model.User
 
 interface IUserRepository {
     suspend fun fetchUserRole(username: String): RepositoryResponse<UserDto>
+    suspend fun fetchUserInfo(username: String): RepositoryResponse<User>
     suspend fun fetchAccountInfo(username: String): RepositoryResponse<AccountDto>
 }

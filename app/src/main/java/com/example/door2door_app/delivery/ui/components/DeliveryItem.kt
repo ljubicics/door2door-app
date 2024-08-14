@@ -66,7 +66,7 @@ private fun DeliveryItemContent(
                     modifier = Modifier
                         .background(
                             color = MaterialTheme.colorScheme.surface,
-                            shape = CircleShape
+                            shape = RoundedCornerShape(20.dp)
                         ),
                     contentAlignment = Alignment.Center
                 ) {

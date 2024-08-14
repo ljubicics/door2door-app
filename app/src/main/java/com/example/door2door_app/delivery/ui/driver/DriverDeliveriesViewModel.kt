@@ -8,6 +8,7 @@ import com.example.door2door_app.delivery.domain.usecase.ChangeDeliveryStatusUse
 import com.example.door2door_app.delivery.domain.usecase.GetAllFinishedDriverDeliveriesUseCase
 import com.example.door2door_app.delivery.domain.usecase.GetInProgressDriverDeliveryUseCase
 import com.example.door2door_app.user.domain.model.Account
+import com.example.door2door_app.user.domain.model.User
 import com.example.door2door_app.user.domain.repository.preferences.IUserPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,7 @@ class DriverDeliveriesViewModel(
 
     data class State(
         val account: Account? = null,
+        val user: User? = null,
         val finishedDeliveries: List<Delivery> = emptyList(),
         val inProgressDelivery: Delivery? = null
     )
@@ -43,7 +45,8 @@ class DriverDeliveriesViewModel(
     fun loadDriverInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             val account = preferences.getAccountData()
-            _state.update { it.copy(account = account) }
+            val user = preferences.getUserData()
+            _state.update { it.copy(account = account, user = user) }
         }
     }
 
