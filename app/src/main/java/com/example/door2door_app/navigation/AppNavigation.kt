@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.door2door_app.delivery.ui.customer.CustomerDeliveriesScreen
 import com.example.door2door_app.delivery.ui.driver.DriverDeliveriesScreen
+import com.example.door2door_app.delivery.ui.driver.ScannerScreen
 import com.example.door2door_app.login.ui.LoginScreen
 import com.example.door2door_app.main.ui.CustomerScreen
 import com.example.door2door_app.main.ui.DeliveryDriverScreen
@@ -86,7 +87,14 @@ fun DeliveryDriverNavGraph(
 ) {
     NavHost(navController = navController, startDestination = DeliveryDriverDestinations.DeliveryScreenPath) {
         composable<DeliveryDriverDestinations.DeliveryScreenPath> {
-            DriverDeliveriesScreen()
+            DriverDeliveriesScreen(
+                navController = navController
+            )
+        }
+        composable<DeliveryDriverDestinations.ScannerScreenPath> {
+            ScannerScreen(
+                navController = navController
+            )
         }
     }
 }

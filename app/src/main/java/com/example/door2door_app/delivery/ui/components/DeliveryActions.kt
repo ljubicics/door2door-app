@@ -1,7 +1,5 @@
 package com.example.door2door_app.delivery.ui.components
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,7 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import com.example.door2door_app.delivery.domain.model.Delivery
 import com.example.door2door_app.delivery.domain.model.DeliveryStatus
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
@@ -33,13 +30,21 @@ import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 @Composable
 fun DeliveryActions(
     modifier: Modifier,
-    delivery: Delivery?
+    delivery: Delivery?,
+    onDeliveryStatusButtonClick: () -> Unit = {},
+    onNavigationButtonClick: () -> Unit = {}
 ) {
 
-    val deliveryStatusText = when (delivery?.status) {
-        DeliveryStatus.IN_PROGRESS -> "In Progress"
-        DeliveryStatus.ACCEPTED -> "Accepted"
+    val deliveryStatusNextStateText = when (delivery?.status) {
+        DeliveryStatus.IN_PROGRESS -> "Scan QR to confirm"
+        DeliveryStatus.ACCEPTED -> "Picked up"
         else -> "Pending"
+    }
+
+    val navigationText = when (delivery?.status) {
+        DeliveryStatus.IN_PROGRESS -> "Navigate to drop-off"
+        DeliveryStatus.ACCEPTED -> "Navigate to pickup"
+        else -> "Navigate to"
     }
 
     val context = LocalContext.current
@@ -73,11 +78,7 @@ fun DeliveryActions(
                         .fillMaxWidth()
                         .padding(paddingValues = PaddingValues(start = 8.dp, end = 8.dp, top = 2.dp, bottom = 4.dp)),
                     onClick = {
-                        val gmmIntentUri =
-                            Uri.parse("google.navigation:q=Trg+Republike,+Belgrade+Serbia")
-                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                        mapIntent.setPackage("com.google.android.apps.maps")
-                        startActivity(context, mapIntent, null)
+                        onDeliveryStatusButtonClick()
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.tertiary,
@@ -85,7 +86,7 @@ fun DeliveryActions(
                     )
                 ) {
                     Text(
-                        text = "Accept",
+                        text = deliveryStatusNextStateText,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -98,11 +99,7 @@ fun DeliveryActions(
                         .padding(paddingValues = PaddingValues(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)),
                     onClick = {
                         if (delivery != null) {
-                            val gmmIntentUri =
-                                Uri.parse("google.navigation:q=${delivery.pickupLocation},+Belgrade+Serbia")
-                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                            mapIntent.setPackage("com.google.android.apps.maps")
-                            startActivity(context, mapIntent, null)
+                            onNavigationButtonClick()
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -111,7 +108,7 @@ fun DeliveryActions(
                     )
                 ) {
                     Text(
-                        text = "Navigate to",
+                        text = navigationText,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
                     )

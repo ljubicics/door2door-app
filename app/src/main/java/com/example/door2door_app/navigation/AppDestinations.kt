@@ -37,4 +37,7 @@ sealed class DeliveryDriverDestinations : IDestination {
 
     @Serializable
     data object DeliveryScreenPath : DeliveryDriverDestinations()
+
+    @Serializable
+    data object ScannerScreenPath : DeliveryDriverDestinations()
 }

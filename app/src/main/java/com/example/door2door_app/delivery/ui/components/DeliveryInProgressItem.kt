@@ -15,11 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,13 +31,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.door2door_app.R
 import com.example.door2door_app.delivery.domain.model.Delivery
-import com.example.door2door_app.delivery.domain.model.DeliveryStatus
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 
 @Composable
 fun DeliveryInProgressItem(
     modifier: Modifier = Modifier,
-    delivery: Delivery? = null
+    delivery: Delivery? = null,
+    onDeliveryStatusButtonClick: () -> Unit = {},
+    onNavigationButtonClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier
@@ -62,7 +60,12 @@ fun DeliveryInProgressItem(
         ) {
             InProgressDeliveryInfo(modifier, delivery)
             Spacer(modifier = Modifier.height(32.dp))
-            DeliveryActions(modifier, delivery)
+            DeliveryActions(
+                modifier = modifier,
+                delivery = delivery,
+                onDeliveryStatusButtonClick = onDeliveryStatusButtonClick,
+                onNavigationButtonClick = onNavigationButtonClick
+            )
         }
     }
 }
