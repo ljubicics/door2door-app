@@ -16,5 +16,10 @@
     <string name="address">Address</string>
     <string name="register_button">Register</string>
     <string name="register_error">Registration failed</string>
+    <string name="delivery_in_progress">Delivery in progress</string>
+    <string name="no_delivery_in_progress">No delivery in progress</string>
+    <string name="be_sure_to_accept_next_one">Be sure to accept next one</string>
+    <string name="no_tracking_code">No Tracking Code</string>
+    <string name="no_status">No status</string>
 
 </resources>

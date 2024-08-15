@@ -35,11 +35,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.door2door_app.R
 import com.example.door2door_app.navigation.AppDestinations
@@ -147,7 +149,7 @@ fun LoginForm(
         TextField(
             modifier = Modifier
                 .width(300.dp)
-                .height(50.dp),
+                .height(55.dp),
             value = username,
             placeholder = { Text(text = "Username") },
             maxLines = 1,
@@ -157,7 +159,9 @@ fun LoginForm(
                 keyboardType = KeyboardType.Text
             ),
             colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = Color.Transparent
+                unfocusedContainerColor = Color.Transparent,
+                focusedTextColor = MaterialTheme.colorScheme.primary,
+                unfocusedTextColor = MaterialTheme.colorScheme.primary
             ),
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Person, contentDescription = null)
@@ -169,7 +173,7 @@ fun LoginForm(
         TextField(
             modifier = Modifier
                 .width(300.dp)
-                .height(50.dp),
+                .height(55.dp),
             value = password,
             placeholder = { Text(text = "Password") },
             onValueChange = onPasswordChange,
@@ -180,7 +184,9 @@ fun LoginForm(
             ),
             visualTransformation = PasswordVisualTransformation(),
             colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = Color.Transparent
+                unfocusedContainerColor = Color.Transparent,
+                focusedTextColor = MaterialTheme.colorScheme.primary,
+                unfocusedTextColor = MaterialTheme.colorScheme.primary
             ),
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Lock, contentDescription = null)
@@ -190,7 +196,11 @@ fun LoginForm(
         Spacer(modifier = modifier.height(10.dp))
 
         Row {
-            Text(text = "Don't have an account? ")
+            Text(
+                text = "Don't have an account? ",
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.secondary
+            )
             Text(
                 modifier = modifier.clickable {
                     onRegisterClick()

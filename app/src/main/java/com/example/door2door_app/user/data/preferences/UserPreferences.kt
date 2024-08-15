@@ -19,6 +19,7 @@ class UserPreferences(
 
     private val tokenKey = stringPreferencesKey("TOKEN")
     private val accountInfoKey = stringPreferencesKey("ACCOUNT_INFO")
+    private val userInfoKey = stringPreferencesKey("USER_INFO")
 
     override suspend fun storeToken(token: String) {
         preferences.edit { preferences ->
@@ -39,11 +40,16 @@ class UserPreferences(
     }
 
     override suspend fun storeUserData(user: User) {
-        TODO("Not yet implemented")
+        preferences.edit { preferences ->
+            preferences[userInfoKey] = Json.encodeToString(user)
+        }
     }
 
     override suspend fun getUserData(): User {
-        TODO("Not yet implemented")
+        val user = preferences.data.map { preferences ->
+            preferences[userInfoKey] ?: ""
+        }.first()
+        return Json.decodeFromString(string = user)
     }
 
     override suspend fun storeAccountData(account: Account) {
@@ -58,7 +64,7 @@ class UserPreferences(
         }.first()
 
         return if (account != "") {
-            Json.decodeFromString(account)
+            Json.decodeFromString(string = account)
         } else {
             Account(
                 role = RoleName.UNKNOWN

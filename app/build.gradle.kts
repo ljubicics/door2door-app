@@ -23,6 +23,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        signingConfig = signingConfigs.getByName("debug")
     }
 
     buildTypes {
@@ -99,4 +100,11 @@ dependencies {
     // Datastore
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.datastore.core)
+
+    // QR Code
+    implementation(libs.accompanist.permissions)
+    implementation(libs.androidx.camera)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.google.mlkit)
 }
