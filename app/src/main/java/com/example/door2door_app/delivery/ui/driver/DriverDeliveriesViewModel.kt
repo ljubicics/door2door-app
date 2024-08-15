@@ -1,6 +1,5 @@
 package com.example.door2door_app.delivery.ui.driver
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.door2door_app.delivery.domain.model.Delivery
@@ -24,8 +23,7 @@ class DriverDeliveriesViewModel(
     private val getAllFinishedDriverDeliveriesUseCase: GetAllFinishedDriverDeliveriesUseCase,
     private val getInProgressDriverDeliveryUseCase: GetInProgressDriverDeliveryUseCase,
     private val changeDeliveryStatusUseCase: ChangeDeliveryStatusUseCase,
-    private val preferences: IUserPreferences,
-    private val context: Context
+    private val preferences: IUserPreferences
 ) : ViewModel() {
 
     data class State(
@@ -79,7 +77,7 @@ class DriverDeliveriesViewModel(
     private suspend fun resolveStatusButtonClick() {
         inProgressDelivery()?.let {
             when (it.status) {
-                DeliveryStatus.ACCEPTED -> changeDeliveryStatusUseCase(it.id, DeliveryStatus.IN_PROGRESS)
+                DeliveryStatus.ACCEPTED -> changeDeliveryStatus()
                 DeliveryStatus.IN_PROGRESS -> _openScanner.send(Unit)
                 else -> return
             }
@@ -90,19 +88,22 @@ class DriverDeliveriesViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val deliveryId = inProgressDelivery()?.id ?: 0L
             val result = when (inProgressDelivery()?.status) {
-                DeliveryStatus.ACCEPTED -> changeDeliveryStatusUseCase(
-                    deliveryId = deliveryId,
-                    DeliveryStatus.IN_PROGRESS
-                )
-
-                DeliveryStatus.IN_PROGRESS -> changeDeliveryStatusUseCase(
-                    deliveryId = deliveryId,
-                    DeliveryStatus.DELIVERED
-                )
+                DeliveryStatus.ACCEPTED -> {
+                    changeInProgressDeliveryStatus()
+                    changeDeliveryStatusUseCase(
+                        deliveryId = deliveryId,
+                        DeliveryStatus.IN_PROGRESS
+                    )
+                }
 
                 else -> return@launch
             }
         }
+    }
+
+    private fun changeInProgressDeliveryStatus() {
+        val changedStatusDelivery = inProgressDelivery()?.copy(status = DeliveryStatus.IN_PROGRESS)
+        _state.update { it.copy(inProgressDelivery = changedStatusDelivery) }
     }
 
     private fun deliveries() = _state.value.finishedDeliveries

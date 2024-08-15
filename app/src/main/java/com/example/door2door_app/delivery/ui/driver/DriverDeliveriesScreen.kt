@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import com.example.door2door_app.delivery.domain.model.Delivery
 import com.example.door2door_app.delivery.ui.components.DeliveriesView
 import com.example.door2door_app.delivery.ui.components.DeliveryInProgressItem
+import com.example.door2door_app.delivery.ui.components.NoActiveDeliveryItem
 import com.example.door2door_app.delivery.ui.components.NoDeliveriesView
 import com.example.door2door_app.delivery.ui.components.util.NavigationDestinationResolver
 import com.example.door2door_app.navigation.DeliveryDriverDestinations
@@ -82,7 +83,7 @@ fun DriverDeliveriesScreen(
 
     DriverDeliveriesScreenContent(
         user = state.user ?: User(),
-        inProgressDelivery = state.inProgressDelivery ?: Delivery(),
+        inProgressDelivery = state.inProgressDelivery,
         deliveries = state.finishedDeliveries,
         onNavigationButtonClick = viewmodel::onNavigationButtonClick,
         onDeliveryStatusButtonClick = viewmodel::onDeliveryStatusButtonClick
@@ -93,7 +94,7 @@ fun DriverDeliveriesScreen(
 @Composable
 private fun DriverDeliveriesScreenContent(
     user: User = User(),
-    inProgressDelivery: Delivery = Delivery(),
+    inProgressDelivery: Delivery? = null,
     deliveries: List<Delivery> = emptyList(),
     onDeliveryStatusButtonClick: () -> Unit = {},
     onNavigationButtonClick: () -> Unit = {}
@@ -142,11 +143,15 @@ private fun DriverDeliveriesScreenContent(
                 .background(color = MaterialTheme.colorScheme.primary)
                 .padding(paddingValues = PaddingValues(top = innerPadding.calculateTopPadding()))
         ) {
-            DeliveryInProgressItem(
-                delivery = inProgressDelivery,
-                onDeliveryStatusButtonClick = onDeliveryStatusButtonClick,
-                onNavigationButtonClick = onNavigationButtonClick
-            )
+            if (inProgressDelivery == null) {
+                NoActiveDeliveryItem()
+            } else {
+                DeliveryInProgressItem(
+                    delivery = inProgressDelivery,
+                    onDeliveryStatusButtonClick = onDeliveryStatusButtonClick,
+                    onNavigationButtonClick = onNavigationButtonClick
+                )
+            }
         }
     }
 }
