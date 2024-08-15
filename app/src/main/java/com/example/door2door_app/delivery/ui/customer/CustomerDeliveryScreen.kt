@@ -1,4 +1,4 @@
-package com.example.door2door_app.delivery.ui
+package com.example.door2door_app.delivery.ui.customer
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun DeliveryScreen(
+fun CustomerDeliveriesScreen(
     modifier: Modifier = Modifier,
     text: String = ""
 ) {
