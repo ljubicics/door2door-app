@@ -32,10 +32,10 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.door2door_app.delivery.domain.model.Delivery
-import com.example.door2door_app.delivery.ui.components.DeliveriesView
-import com.example.door2door_app.delivery.ui.components.DeliveryInProgressItem
-import com.example.door2door_app.delivery.ui.components.NoActiveDeliveryItem
-import com.example.door2door_app.delivery.ui.components.NoDeliveriesView
+import com.example.door2door_app.delivery.ui.components.driver.DeliveriesView
+import com.example.door2door_app.delivery.ui.components.driver.DeliveryInProgressItem
+import com.example.door2door_app.delivery.ui.components.driver.NoActiveDeliveryItem
+import com.example.door2door_app.delivery.ui.components.driver.NoDeliveriesView
 import com.example.door2door_app.delivery.ui.components.util.NavigationDestinationResolver
 import com.example.door2door_app.navigation.DeliveryDriverDestinations
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme

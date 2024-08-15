@@ -21,5 +21,8 @@
     <string name="be_sure_to_accept_next_one">Be sure to accept next one</string>
     <string name="no_tracking_code">No Tracking Code</string>
     <string name="no_status">No status</string>
+    <string name="pending_deliveries">Pending deliveries</string>
+    <string name="finished_deliveries">FINISHED DELIVERIES</string>
+    <string name="all_deliveries">All deliveries</string>
 
 </resources>
