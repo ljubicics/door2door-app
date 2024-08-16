@@ -1,7 +1,5 @@
 package com.example.door2door_app.networking.factory
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.example.door2door_app.user.domain.repository.preferences.IUserPreferences
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
@@ -13,7 +11,6 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.plugin
 import io.ktor.client.request.header
-import io.ktor.client.request.headers
 import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
@@ -46,7 +43,7 @@ object HttpClientFactory : KoinComponent {
                 contentType(ContentType.Application.Json)
                 url {
                     protocol = URLProtocol.HTTP
-                    host = "10.0.1.49"
+                    host = "192.168.1.146"
                     port = 8080
                     path("api/")
                 }

@@ -160,8 +160,8 @@ fun LoginForm(
             ),
             colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = Color.Transparent,
-                focusedTextColor = MaterialTheme.colorScheme.primary,
-                unfocusedTextColor = MaterialTheme.colorScheme.primary
+                focusedTextColor = MaterialTheme.colorScheme.scrim,
+                unfocusedTextColor = MaterialTheme.colorScheme.scrim
             ),
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Person, contentDescription = null)
@@ -185,8 +185,8 @@ fun LoginForm(
             visualTransformation = PasswordVisualTransformation(),
             colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = Color.Transparent,
-                focusedTextColor = MaterialTheme.colorScheme.primary,
-                unfocusedTextColor = MaterialTheme.colorScheme.primary
+                focusedTextColor = MaterialTheme.colorScheme.scrim,
+                unfocusedTextColor = MaterialTheme.colorScheme.scrim
             ),
             leadingIcon = {
                 Icon(imageVector = Icons.Outlined.Lock, contentDescription = null)

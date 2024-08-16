@@ -72,10 +72,7 @@ fun CustomerNavGraph(
 ) {
     NavHost(navController = navController, startDestination = CustomerDestinations.DeliveryScreenPath) {
         composable<CustomerDestinations.DeliveryScreenPath> {
-            CustomerDeliveriesScreen(
-                modifier = modifier,
-                text = "Customer"
-            )
+            CustomerDeliveriesScreen()
         }
     }
 }

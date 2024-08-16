@@ -32,10 +32,10 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.door2door_app.delivery.domain.model.Delivery
-import com.example.door2door_app.delivery.ui.components.DeliveriesView
-import com.example.door2door_app.delivery.ui.components.DeliveryInProgressItem
-import com.example.door2door_app.delivery.ui.components.NoActiveDeliveryItem
-import com.example.door2door_app.delivery.ui.components.NoDeliveriesView
+import com.example.door2door_app.delivery.ui.components.driver.DeliveriesView
+import com.example.door2door_app.delivery.ui.components.driver.DeliveryInProgressItem
+import com.example.door2door_app.delivery.ui.components.driver.NoActiveDeliveryItem
+import com.example.door2door_app.delivery.ui.components.driver.NoDeliveriesView
 import com.example.door2door_app.delivery.ui.components.util.NavigationDestinationResolver
 import com.example.door2door_app.navigation.DeliveryDriverDestinations
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
@@ -55,7 +55,9 @@ fun DriverDeliveriesScreen(
     val state by viewmodel.state.collectAsStateWithLifecycle()
     val cameraPermissionState = rememberPermissionState(permission = android.Manifest.permission.CAMERA)
 
-    viewmodel.loadScreenInfo()
+    LaunchedEffect(Unit) {
+        viewmodel.loadScreenInfo()
+    }
 
     LaunchedEffect(key1 = null) {
         viewmodel.onNavigationButtonClick.collect {
@@ -99,12 +101,7 @@ private fun DriverDeliveriesScreenContent(
     onDeliveryStatusButtonClick: () -> Unit = {},
     onNavigationButtonClick: () -> Unit = {}
 ) {
-    val sheetState = rememberModalBottomSheetState()
-    var isSheetOpen by rememberSaveable {
-        mutableStateOf(false)
-    }
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val scope = rememberCoroutineScope()
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,

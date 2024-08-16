@@ -34,4 +34,7 @@ object DeliveryMapper {
         )
     }
 
+    fun map(dto: List<DeliveryDto>): List<Delivery> {
+        return dto.map { map(it) }
+    }
 }

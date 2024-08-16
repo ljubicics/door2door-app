@@ -37,33 +37,33 @@ class DeliveryRemoteDataSource(
     }
 
     suspend fun fetchAllUserDeliveries(userId: Long): RepositoryResponse<List<Delivery>> {
-        val response = httpClient.safeRequest<List<Delivery>> {
+        val response = httpClient.safeRequest<List<DeliveryDto>> {
             url("v1/deliveries/customer?id=$userId")
             method = HttpMethod.Get
         }
 
         return when (response) {
             is RepositoryResponse.Error -> response
-            is RepositoryResponse.Success -> RepositoryResponse.Success(response.body)
+            is RepositoryResponse.Success -> RepositoryResponse.Success(DeliveryMapper.map(response.body))
         }
     }
 
     suspend fun fetchAllUserInProgressDeliveries(userId: Long): RepositoryResponse<List<Delivery>> {
-        val response = httpClient.safeRequest<List<Delivery>> {
+        val response = httpClient.safeRequest<List<DeliveryDto>> {
             url("v1/deliveries/customer/inProgress?id=$userId")
             method = HttpMethod.Get
         }
 
         return when (response) {
             is RepositoryResponse.Error -> response
-            is RepositoryResponse.Success -> RepositoryResponse.Success(response.body)
+            is RepositoryResponse.Success -> RepositoryResponse.Success(DeliveryMapper.map(response.body))
         }
     }
 
     suspend fun changeDeliveryStatus(deliveryId: Long, status: String): RepositoryResponse<Boolean> {
         val response = httpClient.safeRequest<Boolean> {
             url("v1/deliveries/changeStatus?id=$deliveryId&status=$status")
-            method = HttpMethod.Put
+            method = HttpMethod.Get
         }
 
         return when (response) {
