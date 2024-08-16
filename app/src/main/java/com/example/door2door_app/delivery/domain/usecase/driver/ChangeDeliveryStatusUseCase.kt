@@ -1,4 +1,4 @@
-package com.example.door2door_app.delivery.domain.usecase
+package com.example.door2door_app.delivery.domain.usecase.driver
 
 import com.example.door2door_app.delivery.domain.model.DeliveryStatus
 import com.example.door2door_app.delivery.domain.repository.IDeliveryRepository

@@ -55,7 +55,9 @@ fun DriverDeliveriesScreen(
     val state by viewmodel.state.collectAsStateWithLifecycle()
     val cameraPermissionState = rememberPermissionState(permission = android.Manifest.permission.CAMERA)
 
-    viewmodel.loadScreenInfo()
+    LaunchedEffect(Unit) {
+        viewmodel.loadScreenInfo()
+    }
 
     LaunchedEffect(key1 = null) {
         viewmodel.onNavigationButtonClick.collect {
@@ -99,12 +101,7 @@ private fun DriverDeliveriesScreenContent(
     onDeliveryStatusButtonClick: () -> Unit = {},
     onNavigationButtonClick: () -> Unit = {}
 ) {
-    val sheetState = rememberModalBottomSheetState()
-    var isSheetOpen by rememberSaveable {
-        mutableStateOf(false)
-    }
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val scope = rememberCoroutineScope()
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,

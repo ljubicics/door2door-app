@@ -13,7 +13,7 @@ class DeliveryRepository(
         return remoteDataSource.fetchAllDriverDeliveries(driverId = accountId)
     }
 
-    override suspend fun fetchAllUserDeliveries(accountId: Long): RepositoryResponse<List<Delivery>> {
+    override suspend fun fetchAllUserFinishedDeliveries(accountId: Long): RepositoryResponse<List<Delivery>> {
         return remoteDataSource.fetchAllUserDeliveries(userId = accountId)
     }
 
@@ -21,7 +21,7 @@ class DeliveryRepository(
         return remoteDataSource.fetchAllDriverInProgressDeliveries(driverId = accountId)
     }
 
-    override suspend fun fetchUserInProgressDelivery(accountId: Long): RepositoryResponse<List<Delivery>> {
+    override suspend fun fetchAllUserActiveDeliveries(accountId: Long): RepositoryResponse<List<Delivery>> {
         return remoteDataSource.fetchAllUserInProgressDeliveries(userId = accountId)
     }
 

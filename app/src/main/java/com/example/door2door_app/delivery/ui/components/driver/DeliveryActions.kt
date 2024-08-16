@@ -76,7 +76,7 @@ fun DeliveryActions(
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(paddingValues = PaddingValues(start = 8.dp, end = 8.dp, top = 2.dp, bottom = 4.dp)),
+                        .padding(paddingValues = PaddingValues(start = 16.dp, end = 16.dp, top = 2.dp, bottom = 4.dp)),
                     onClick = {
                         onDeliveryStatusButtonClick()
                     },
@@ -96,7 +96,7 @@ fun DeliveryActions(
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(paddingValues = PaddingValues(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)),
+                        .padding(paddingValues = PaddingValues(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 8.dp)),
                     onClick = {
                         if (delivery != null) {
                             onNavigationButtonClick()

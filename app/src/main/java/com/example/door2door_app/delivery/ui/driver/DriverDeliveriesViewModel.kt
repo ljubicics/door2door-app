@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.door2door_app.delivery.domain.model.Delivery
 import com.example.door2door_app.delivery.domain.model.DeliveryStatus
-import com.example.door2door_app.delivery.domain.usecase.ChangeDeliveryStatusUseCase
-import com.example.door2door_app.delivery.domain.usecase.GetAllFinishedDriverDeliveriesUseCase
-import com.example.door2door_app.delivery.domain.usecase.GetInProgressDriverDeliveryUseCase
+import com.example.door2door_app.delivery.domain.usecase.driver.ChangeDeliveryStatusUseCase
+import com.example.door2door_app.delivery.domain.usecase.driver.GetAllFinishedDriverDeliveriesUseCase
+import com.example.door2door_app.delivery.domain.usecase.driver.GetInProgressDriverDeliveryUseCase
 import com.example.door2door_app.user.domain.model.Account
 import com.example.door2door_app.user.domain.model.User
 import com.example.door2door_app.user.domain.repository.preferences.IUserPreferences
@@ -65,7 +65,6 @@ class DriverDeliveriesViewModel(
         val deliveries = getAllFinishedDriverDeliveriesUseCase()
         val inProgressDelivery = getInProgressDriverDeliveryUseCase()
         _state.update { it.copy(finishedDeliveries = deliveries, inProgressDelivery = inProgressDelivery) }
-
     }
 
     private suspend fun loadDriverInfo() {
