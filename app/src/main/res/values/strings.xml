@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">door2door-app</string>
+    <string name="app_name">Door2Door</string>
+
+    <!-- Login -->
+    <string name="login">Login</string>
+    <string name="login_failed">Login failed, please try again</string>
+
+    <!-- Register -->
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="name">First Name</string>
+    <string name="surname">Last Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="register_button">Register</string>
+    <string name="register_error">Registration failed</string>
+    <string name="delivery_in_progress">Delivery in progress</string>
+    <string name="no_delivery_in_progress">No delivery in progress</string>
+    <string name="be_sure_to_accept_next_one">Be sure to accept next one</string>
+    <string name="no_tracking_code">No Tracking Code</string>
+    <string name="no_status">No status</string>
+    <string name="pending_deliveries">Pending deliveries</string>
+    <string name="finished_deliveries">FINISHED DELIVERIES</string>
+    <string name="all_deliveries">All deliveries</string>
+
 </resources>
