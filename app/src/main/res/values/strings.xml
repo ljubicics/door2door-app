@@ -24,5 +24,12 @@
     <string name="pending_deliveries">Pending deliveries</string>
     <string name="finished_deliveries">FINISHED DELIVERIES</string>
     <string name="all_deliveries">All deliveries</string>
+    <string name="no_tracking_code_available">No tracking code available</string>
+    <string name="in_progress">In progress</string>
+    <string name="picking_up">Picking up</string>
+    <string name="delivered">Delivered</string>
+    <string name="pending">Pending</string>
+    <string name="delivery_driver">Delivery driver</string>
+    <string name="from">From</string>
 
 </resources>
