@@ -9,9 +9,11 @@ import com.example.door2door_app.user.domain.model.Account
 import com.example.door2door_app.user.domain.model.User
 import com.example.door2door_app.user.domain.repository.preferences.IUserPreferences
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -38,6 +40,15 @@ class CustomerDeliveriesViewModel(
     val state = _state.stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(5000), State()
     )
+
+    private val _onActiveDeliveryClick = Channel<Delivery>()
+    val onActiveDeliveryClick = _onActiveDeliveryClick.receiveAsFlow()
+
+    fun onActiveDeliveryClick(delivery: Delivery) {
+        viewModelScope.launch {
+            _onActiveDeliveryClick.send(delivery)
+        }
+    }
 
     private fun loadScreenInfo() {
         viewModelScope.launch(Dispatchers.IO) {

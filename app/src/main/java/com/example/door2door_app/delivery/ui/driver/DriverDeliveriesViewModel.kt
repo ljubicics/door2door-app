@@ -30,7 +30,8 @@ class DriverDeliveriesViewModel(
         val account: Account? = null,
         val user: User? = null,
         val finishedDeliveries: List<Delivery> = emptyList(),
-        val inProgressDelivery: Delivery? = null
+        val inProgressDelivery: Delivery? = null,
+        val isLoading: Boolean = false
     )
 
     private val _state = MutableStateFlow(State())
@@ -44,8 +45,10 @@ class DriverDeliveriesViewModel(
 
     fun loadScreenInfo() {
         viewModelScope.launch(Dispatchers.IO) {
+            setIsLoading(isLoading = true)
             loadDriverInfo()
             loadDeliveries()
+            setIsLoading(isLoading = false)
         }
     }
 
@@ -103,6 +106,10 @@ class DriverDeliveriesViewModel(
     private fun changeInProgressDeliveryStatus() {
         val changedStatusDelivery = inProgressDelivery()?.copy(status = DeliveryStatus.IN_PROGRESS)
         _state.update { it.copy(inProgressDelivery = changedStatusDelivery) }
+    }
+
+    private fun setIsLoading(isLoading: Boolean) {
+        _state.update { it.copy(isLoading = isLoading) }
     }
 
     private fun deliveries() = _state.value.finishedDeliveries

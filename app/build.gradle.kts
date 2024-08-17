@@ -107,4 +107,5 @@ dependencies {
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.google.mlkit)
+    implementation(libs.zxing.android)
 }
