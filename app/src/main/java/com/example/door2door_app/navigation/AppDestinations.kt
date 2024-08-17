@@ -1,5 +1,6 @@
 package com.example.door2door_app.navigation
 
+import com.example.door2door_app.delivery.domain.model.Delivery
 import kotlinx.serialization.Serializable
 
 interface IDestination
@@ -28,6 +29,9 @@ sealed class CustomerDestinations : IDestination {
 
     @Serializable
     data object DeliveryScreenPath : CustomerDestinations()
+
+    @Serializable
+    data class DeliveryDetailsPath(val deliveryId: Long) : CustomerDestinations()
 }
 
 sealed class DeliveryDriverDestinations : IDestination {
