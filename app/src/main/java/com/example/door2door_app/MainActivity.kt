@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import androidx.navigation.compose.rememberNavController
 import com.example.door2door_app.navigation.AppNavigation
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 

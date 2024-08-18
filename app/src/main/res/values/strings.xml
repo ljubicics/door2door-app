@@ -31,5 +31,10 @@
     <string name="pending">Pending</string>
     <string name="delivery_driver">Delivery driver</string>
     <string name="from">From</string>
+    <string name="profile">Profile</string>
+    <string name="your_profile">- Your profile</string>
+    <string name="total_deliveries">Total deliveries</string>
+    <string name="date_registered">Date registered</string>
+    <string name="log_out">Log out</string>
 
 </resources>

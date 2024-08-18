@@ -33,7 +33,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -141,6 +140,7 @@ private fun DeliveryDetailsScreenContent(
         sheetPeekHeight = 470.dp,
         sheetDragHandle = {},
         sheetShadowElevation = 10.dp,
+        sheetSwipeEnabled = false
     ) { innerPadding ->
         Box(
             modifier = Modifier

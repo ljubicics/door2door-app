@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.door2door_app.delivery.ui.customer.CustomerDeliveriesScreen
@@ -15,6 +16,7 @@ import com.example.door2door_app.delivery.ui.driver.scanner.ScannerScreen
 import com.example.door2door_app.login.ui.LoginScreen
 import com.example.door2door_app.main.ui.CustomerScreen
 import com.example.door2door_app.main.ui.DeliveryDriverScreen
+import com.example.door2door_app.profile.ui.ProfileScreen
 import com.example.door2door_app.register.ui.RegisterScreen
 import com.example.door2door_app.splash.ui.SplashScreen
 
@@ -35,10 +37,7 @@ fun AppNavigation() {
         composable<AppDestinations.LoginScreenPath> {
             LoginScreen(
                 onSuccessfulLogin = {
-                    navigateAndForget(
-                        navController = navController,
-                        destination = it,
-                    )
+                    navController.navigate(it)
                 },
                 onRegisterClick = {
                     navController.navigate(
@@ -59,10 +58,14 @@ fun AppNavigation() {
             )
         }
         composable<AppDestinations.Customer> {
-            CustomerScreen()
+            CustomerScreen(
+                parentNavController = navController
+            )
         }
         composable<AppDestinations.DeliveryDriver> {
-            DeliveryDriverScreen()
+            DeliveryDriverScreen(
+                parentNavController = navController
+            )
         }
     }
 }
@@ -70,6 +73,7 @@ fun AppNavigation() {
 @Composable
 fun CustomerNavGraph(
     modifier: Modifier = Modifier,
+    parentNavController: NavController,
     navController: NavHostController
 ) {
     NavHost(navController = navController, startDestination = CustomerDestinations.DeliveryScreenPath) {
@@ -84,12 +88,23 @@ fun CustomerNavGraph(
                 deliveryId = args.deliveryId
             )
         }
+        composable<CustomerDestinations.ProfileScreenPath> {
+            ProfileScreen(
+                onLogOutClick = {
+                    navigateAndForget(
+                        navController = parentNavController,
+                        destination = AppDestinations.LoginScreenPath()
+                    )
+                }
+            )
+        }
     }
 }
 
 @Composable
 fun DeliveryDriverNavGraph(
     modifier: Modifier = Modifier,
+    parentNavController: NavController,
     navController: NavHostController
 ) {
     NavHost(navController = navController, startDestination = DeliveryDriverDestinations.DeliveryScreenPath) {
@@ -101,6 +116,16 @@ fun DeliveryDriverNavGraph(
         composable<DeliveryDriverDestinations.ScannerScreenPath> {
             ScannerScreen(
                 navController = navController
+            )
+        }
+        composable<DeliveryDriverDestinations.ProfileScreenPath> {
+            ProfileScreen(
+                onLogOutClick = {
+                    navigateAndForget(
+                        navController = parentNavController,
+                        destination = AppDestinations.LoginScreenPath()
+                    )
+                }
             )
         }
     }
