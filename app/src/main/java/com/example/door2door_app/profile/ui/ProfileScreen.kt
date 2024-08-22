@@ -1,6 +1,5 @@
 package com.example.door2door_app.profile.ui
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,17 +37,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.door2door_app.MainActivity
 import com.example.door2door_app.R
 import com.example.door2door_app.profile.ui.components.ProfileDetails
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 import com.example.door2door_app.user.domain.model.User
+import com.example.door2door_app.websockets.WebSocketClient
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel = koinViewModel(),
+    webSocketClient: WebSocketClient? = null,
     onLogOutClick: () -> Unit = {},
 ) {
 
@@ -67,6 +68,7 @@ fun ProfileScreen(
     ProfileScreenContent(
         user = state.user,
         isLoading = state.isLoading,
+        webSocketClient = webSocketClient,
         onLogOutClick = viewModel::onLogOutClick
     )
 }
@@ -76,9 +78,11 @@ fun ProfileScreen(
 fun ProfileScreenContent(
     user: User? = null,
     isLoading: Boolean = false,
+    webSocketClient: WebSocketClient? = null,
     onLogOutClick: () -> Unit = {}
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
+    val context = LocalContext.current
 
     if (isLoading) {
         CircularProgressIndicator(
@@ -117,7 +121,10 @@ fun ProfileScreenContent(
                             color = MaterialTheme.colorScheme.onSurface,
                             shape = RoundedCornerShape(16.dp)
                         )
-                        .clickable { onLogOutClick() },
+                        .clickable {
+                            (context as? MainActivity)?.let { webSocketClient?.disconnect(it) }
+                            onLogOutClick()
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Row(

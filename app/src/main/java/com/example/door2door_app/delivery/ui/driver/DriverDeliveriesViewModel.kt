@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.door2door_app.delivery.domain.model.Delivery
 import com.example.door2door_app.delivery.domain.model.DeliveryStatus
+import com.example.door2door_app.delivery.domain.usecase.driver.AcceptDeliveryUseCase
 import com.example.door2door_app.delivery.domain.usecase.driver.ChangeDeliveryStatusUseCase
 import com.example.door2door_app.delivery.domain.usecase.driver.GetAllFinishedDriverDeliveriesUseCase
 import com.example.door2door_app.delivery.domain.usecase.driver.GetInProgressDriverDeliveryUseCase
@@ -23,6 +24,7 @@ class DriverDeliveriesViewModel(
     private val getAllFinishedDriverDeliveriesUseCase: GetAllFinishedDriverDeliveriesUseCase,
     private val getInProgressDriverDeliveryUseCase: GetInProgressDriverDeliveryUseCase,
     private val changeDeliveryStatusUseCase: ChangeDeliveryStatusUseCase,
+    private val acceptDeliveryUseCase: AcceptDeliveryUseCase,
     private val preferences: IUserPreferences
 ) : ViewModel() {
 
@@ -42,6 +44,12 @@ class DriverDeliveriesViewModel(
 
     private val _openScanner = Channel<Unit>()
     val openScanner = _openScanner.receiveAsFlow()
+
+    private val _registerAsActive = Channel<Unit>()
+    val registerAsActive = _registerAsActive.receiveAsFlow()
+
+    private val _disconnectFromServerSession = Channel<Unit>()
+    val disconnectFromServerSession = _disconnectFromServerSession.receiveAsFlow()
 
     fun loadScreenInfo() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -64,9 +72,27 @@ class DriverDeliveriesViewModel(
         }
     }
 
+    fun acceptDelivery(deliveryId: Long) {
+        viewModelScope.launch {
+            setIsLoading(isLoading = true)
+            val result = acceptDeliveryUseCase(
+                deliveryId = deliveryId
+            )
+            if (result) {
+                loadDeliveries()
+            }
+            setIsLoading(isLoading = false)
+        }
+    }
+
     private suspend fun loadDeliveries() {
         val deliveries = getAllFinishedDriverDeliveriesUseCase()
         val inProgressDelivery = getInProgressDriverDeliveryUseCase()
+        if (inProgressDelivery == null) {
+            _registerAsActive.send(Unit)
+        } else {
+            _disconnectFromServerSession.send(Unit)
+        }
         _state.update { it.copy(finishedDeliveries = deliveries, inProgressDelivery = inProgressDelivery) }
     }
 

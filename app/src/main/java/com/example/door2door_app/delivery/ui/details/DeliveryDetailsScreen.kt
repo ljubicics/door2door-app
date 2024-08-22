@@ -2,6 +2,7 @@ package com.example.door2door_app.delivery.ui.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,6 +48,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun DeliveryDetailsScreen(
     deliveryId: Long = 0,
+    onBackPressed: () -> Unit = {},
     viewModel: DeliveryDetailsViewModel = koinViewModel()
 ) {
 
@@ -57,14 +59,16 @@ fun DeliveryDetailsScreen(
     }
 
     DeliveryDetailsScreenContent(
-        delivery = state.delivery
+        delivery = state.delivery,
+        onBackPressed = onBackPressed
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DeliveryDetailsScreenContent(
-    delivery: Delivery?
+    delivery: Delivery?,
+    onBackPressed: () -> Unit = { }
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
 
@@ -74,7 +78,13 @@ private fun DeliveryDetailsScreenContent(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                    Icon(
+                        modifier = Modifier.clickable {
+                            onBackPressed()
+                        },
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = null
+                    )
                 },
                 colors = TopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -173,7 +183,7 @@ fun PreviewDeliveryDetailsScreen() {
                     driver = Account(
                         username = "Nikola"
                     ),
-                    trackingCode = "AI057068091ZR"
+                    trackingCode = "XP962595007DS"
                 )
             )
         }

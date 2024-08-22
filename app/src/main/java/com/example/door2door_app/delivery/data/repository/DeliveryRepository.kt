@@ -36,4 +36,8 @@ class DeliveryRepository(
     override suspend fun confirmDelivery(confirmPath: String): RepositoryResponse<Boolean> {
         return remoteDataSource.confirmDelivery(confirmPath = confirmPath)
     }
+
+    override suspend fun acceptDelivery(deliveryId: Long, driverId: Long): RepositoryResponse<Boolean> {
+        return remoteDataSource.acceptDelivery(deliveryId = deliveryId, driverId = driverId)
+    }
 }
