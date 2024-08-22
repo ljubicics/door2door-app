@@ -44,7 +44,6 @@ fun CustomerDeliveriesScreen(
     viewModel: CustomerDeliveriesViewModel = koinViewModel(),
     navController: NavController
 ) {
-
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = null) {

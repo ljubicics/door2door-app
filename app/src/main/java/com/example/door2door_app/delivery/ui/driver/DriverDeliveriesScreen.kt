@@ -29,15 +29,19 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.door2door_app.MainActivity
 import com.example.door2door_app.delivery.domain.model.Delivery
+import com.example.door2door_app.delivery.domain.model.DeliveryDialogInfo
 import com.example.door2door_app.delivery.ui.components.driver.DeliveriesView
 import com.example.door2door_app.delivery.ui.components.driver.DeliveryInProgressItem
+import com.example.door2door_app.delivery.ui.components.driver.NewDeliveryDialog
 import com.example.door2door_app.delivery.ui.components.driver.NoActiveDeliveryItem
 import com.example.door2door_app.delivery.ui.components.driver.NoDeliveriesView
 import com.example.door2door_app.delivery.ui.components.util.NavigationDestinationResolver
 import com.example.door2door_app.navigation.DeliveryDriverDestinations
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 import com.example.door2door_app.user.domain.model.User
+import com.example.door2door_app.websockets.WebSocketClient
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -47,6 +51,9 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun DriverDeliveriesScreen(
     navController: NavController,
+    webSocketClient: WebSocketClient,
+    showDeliveryDialog: DeliveryDialogInfo = DeliveryDialogInfo(),
+    onDismissDialog: () -> Unit = {},
     viewmodel: DriverDeliveriesViewModel = koinViewModel()
 ) {
     val context = LocalContext.current
@@ -55,6 +62,18 @@ fun DriverDeliveriesScreen(
 
     LaunchedEffect(Unit) {
         viewmodel.loadScreenInfo()
+    }
+
+    LaunchedEffect(key1 = null) {
+        viewmodel.registerAsActive.collect {
+            (context as? MainActivity)?.let { webSocketClient.connect(it) }
+        }
+    }
+
+    LaunchedEffect(key1 = null) {
+        viewmodel.disconnectFromServerSession.collect {
+            (context as? MainActivity)?.let { webSocketClient.disconnect(it) }
+        }
     }
 
     LaunchedEffect(key1 = null) {
@@ -82,27 +101,32 @@ fun DriverDeliveriesScreen(
     }
 
     DriverDeliveriesScreenContent(
+        showDeliveryDialog = showDeliveryDialog,
         user = state.user ?: User(),
         inProgressDelivery = state.inProgressDelivery,
         deliveries = state.finishedDeliveries,
         isLoading = state.isLoading,
+        onDismissDialog = onDismissDialog,
         onNavigationButtonClick = viewmodel::onNavigationButtonClick,
-        onDeliveryStatusButtonClick = viewmodel::onDeliveryStatusButtonClick
+        onDeliveryStatusButtonClick = viewmodel::onDeliveryStatusButtonClick,
+        onAcceptDelivery = viewmodel::acceptDelivery
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DriverDeliveriesScreenContent(
+    showDeliveryDialog: DeliveryDialogInfo = DeliveryDialogInfo(),
     user: User = User(),
     inProgressDelivery: Delivery? = null,
     deliveries: List<Delivery> = emptyList(),
     isLoading: Boolean = false,
+    onDismissDialog: () -> Unit = {},
+    onAcceptDelivery: (Long) -> Unit = {},
     onDeliveryStatusButtonClick: () -> Unit = {},
     onNavigationButtonClick: () -> Unit = {}
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
-
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
@@ -114,6 +138,22 @@ private fun DriverDeliveriesScreenContent(
                 trackColor = MaterialTheme.colorScheme.surfaceVariant,
             )
         } else {
+            if (showDeliveryDialog.showDialog) {
+                NewDeliveryDialog(
+                    onDismissRequest = {
+                        onDismissDialog()
+                    },
+                    onAccept = {
+                        onAcceptDelivery(
+                            showDeliveryDialog.deliveryId
+                        )
+                        onDismissDialog()
+                    },
+                    onReject = {
+                        onDismissDialog()
+                    }
+                )
+            }
             BottomSheetScaffold(
                 scaffoldState = scaffoldState,
                 sheetContent = {
@@ -180,6 +220,11 @@ fun PreviewDriverDeliverisScreen() {
         }
     }
     Door2DoorAppTheme {
-        DriverDeliveriesScreenContent(User(name = "Strahinja"), Delivery(), list)
+        DriverDeliveriesScreenContent(
+            showDeliveryDialog = DeliveryDialogInfo(false, 0),
+            User(name = "Strahinja"),
+            Delivery(),
+            list
+        )
     }
 }

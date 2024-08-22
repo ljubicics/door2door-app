@@ -10,7 +10,9 @@ object UserMapper {
             surname = userDto.surname ?: "",
             email = userDto.email,
             mobileNumber = userDto.mobileNumber,
-            address = userDto.address
+            address = userDto.address,
+            timeCreated = userDto.timeCreated,
+            totalDeliveries = userDto.totalDeliveries
         )
     }
 }

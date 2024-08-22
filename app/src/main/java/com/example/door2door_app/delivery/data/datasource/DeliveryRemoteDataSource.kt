@@ -95,4 +95,16 @@ class DeliveryRemoteDataSource(
             is RepositoryResponse.Success -> RepositoryResponse.Success(response.body)
         }
     }
+
+    suspend fun acceptDelivery(driverId: Long, deliveryId: Long): RepositoryResponse<Boolean> {
+        val response = httpClient.safeRequest<Unit> {
+            url("v1/deliveries/acceptDelivery?deliveryId=$deliveryId&driverId=$driverId")
+            method = HttpMethod.Get
+        }
+
+        return when (response) {
+            is RepositoryResponse.Error -> response
+            is RepositoryResponse.Success -> RepositoryResponse.Success(true)
+        }
+    }
 }
