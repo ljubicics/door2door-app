@@ -31,6 +31,7 @@ class WebSocketClient(private val url: String) {
                             Log.d("websocket", "Received non-text frame")
                         }
                     }
+                    Log.d("websocket", "Connected")
                 } catch (e: Exception) {
                     Log.d("websocket", "Error: ${e.message}")
                 }

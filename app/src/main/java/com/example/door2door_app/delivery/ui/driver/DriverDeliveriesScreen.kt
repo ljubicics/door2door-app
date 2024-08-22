@@ -140,7 +140,6 @@ private fun DriverDeliveriesScreenContent(
         } else {
             if (showDeliveryDialog.showDialog) {
                 NewDeliveryDialog(
-                    deliveryDialogInfo = showDeliveryDialog,
                     onDismissRequest = {
                         onDismissDialog()
                     },
