@@ -32,14 +32,16 @@ import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 fun CustomerDeliveriesView(
     modifier: Modifier = Modifier,
     activeDeliveries: List<Delivery>,
-    finishedDeliveries: List<Delivery>
+    finishedDeliveries: List<Delivery>,
+    onActiveDeliveryClick: (Delivery) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier
     ) {
         itemsIndexed(items = activeDeliveries, key = { index, _ -> index }) { index, delivery ->
             DeliveryItem(
-                trackingCode = delivery.trackingCode ?: "UG123123UG"
+                delivery = delivery,
+                onDeliveryItemClick = onActiveDeliveryClick
             )
         }
         item {
@@ -77,7 +79,7 @@ fun CustomerDeliveriesView(
             items = finishedDeliveries,
             key = { index, _ -> index + finishedDeliveries.size }) { index, delivery ->
             DeliveryItem(
-                trackingCode = delivery.trackingCode ?: "UG123123UG"
+                delivery = delivery
             )
         }
     }

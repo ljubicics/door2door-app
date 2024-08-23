@@ -89,6 +89,7 @@ dependencies {
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.client.negotiation)
     implementation(libs.ktor.serialization)
+    implementation(libs.ktor.client.websockets)
 
     // Font
     implementation(libs.google.font)
@@ -107,4 +108,5 @@ dependencies {
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.google.mlkit)
+    implementation(libs.zxing.android)
 }

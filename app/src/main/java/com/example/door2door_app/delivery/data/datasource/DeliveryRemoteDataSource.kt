@@ -71,4 +71,40 @@ class DeliveryRemoteDataSource(
             is RepositoryResponse.Success -> RepositoryResponse.Success(response.body)
         }
     }
+
+    suspend fun fetchDeliveryDetails(deliveryId: Long): RepositoryResponse<Delivery> {
+        val response = httpClient.safeRequest<DeliveryDto> {
+            url("v1/deliveries/info?id=$deliveryId")
+            method = HttpMethod.Get
+        }
+
+        return when (response) {
+            is RepositoryResponse.Error -> response
+            is RepositoryResponse.Success -> RepositoryResponse.Success(DeliveryMapper.map(response.body))
+        }
+    }
+
+    suspend fun confirmDelivery(confirmPath: String): RepositoryResponse<Boolean> {
+        val response = httpClient.safeRequest<Boolean> {
+            url("v1/deliveries/confirm?$confirmPath")
+            method = HttpMethod.Get
+        }
+
+        return when (response) {
+            is RepositoryResponse.Error -> response
+            is RepositoryResponse.Success -> RepositoryResponse.Success(response.body)
+        }
+    }
+
+    suspend fun acceptDelivery(driverId: Long, deliveryId: Long): RepositoryResponse<Boolean> {
+        val response = httpClient.safeRequest<Unit> {
+            url("v1/deliveries/acceptDelivery?deliveryId=$deliveryId&driverId=$driverId")
+            method = HttpMethod.Get
+        }
+
+        return when (response) {
+            is RepositoryResponse.Error -> response
+            is RepositoryResponse.Success -> RepositoryResponse.Success(true)
+        }
+    }
 }

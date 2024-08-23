@@ -11,4 +11,6 @@ interface IUserPreferences {
     suspend fun getUserData(): User
     suspend fun storeAccountData(account: Account)
     suspend fun getAccountData(): Account
+    suspend fun clearUserData()
+    suspend fun clearAccountData()
 }

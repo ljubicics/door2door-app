@@ -29,7 +29,7 @@ class UserPreferences(
 
     override suspend fun clearToken() {
         preferences.edit { preferences ->
-            preferences.remove(tokenKey)
+            preferences.remove(key = tokenKey)
         }
     }
 
@@ -69,6 +69,18 @@ class UserPreferences(
             Account(
                 role = RoleName.UNKNOWN
             )
+        }
+    }
+
+    override suspend fun clearUserData() {
+        preferences.edit { preferences ->
+            preferences.remove(key = userInfoKey)
+        }
+    }
+
+    override suspend fun clearAccountData() {
+        preferences.edit { preferences ->
+            preferences.remove(key = accountInfoKey)
         }
     }
 }

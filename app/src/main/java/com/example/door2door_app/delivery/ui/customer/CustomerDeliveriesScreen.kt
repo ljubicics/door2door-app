@@ -18,8 +18,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,25 +29,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.example.door2door_app.R
 import com.example.door2door_app.delivery.domain.model.Delivery
 import com.example.door2door_app.delivery.ui.components.customer.CustomerDeliveriesView
+import com.example.door2door_app.navigation.CustomerDestinations
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 import com.example.door2door_app.user.domain.model.User
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CustomerDeliveriesScreen(
-    viewModel: CustomerDeliveriesViewModel = koinViewModel()
+    viewModel: CustomerDeliveriesViewModel = koinViewModel(),
+    navController: NavController
 ) {
-
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    LaunchedEffect(key1 = null) {
+        viewModel.onActiveDeliveryClick.collectLatest { delivery ->
+            navController.navigate(CustomerDestinations.DeliveryDetailsPath(deliveryId = delivery.id))
+        }
+    }
+
     CustomerDeliveriesScreenContent(
-        user = User("Strahinja"),
+        user = state.user,
         activeDeliveries = state.activeDeliveries,
         finishedDeliveries = state.finishedDeliveries,
-        isLoading = state.isLoading
+        isLoading = state.isLoading,
+        onActiveDeliveryClick = viewModel::onActiveDeliveryClick
     )
 }
 
@@ -58,43 +68,42 @@ fun CustomerDeliveriesScreenContent(
     user: User? = null,
     activeDeliveries: List<Delivery> = emptyList(),
     finishedDeliveries: List<Delivery> = emptyList(),
-    isLoading: Boolean = false
+    isLoading: Boolean = false,
+    onActiveDeliveryClick: (Delivery) -> Unit = {}
 ) {
-    val scaffoldState = rememberBottomSheetScaffoldState()
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.width(64.dp),
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
+        } else {
+            Scaffold(
+                topBar = {
 
-    Scaffold(
-        topBar = {
-            if (isLoading.not()) {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = " - Hello, ${user?.name}",
-                            fontWeight = FontWeight.W300,
-                            fontSize = 26.sp
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = " - Hello, ${user?.name}",
+                                fontWeight = FontWeight.W300,
+                                fontSize = 26.sp
+                            )
+                        },
+                        colors = TopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            scrolledContainerColor = MaterialTheme.colorScheme.primary,
+                            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                            actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                         )
-                    },
-                    colors = TopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        scrolledContainerColor = MaterialTheme.colorScheme.primary,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                        actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                     )
-                )
-            }
-        }
-    ) { innerPadding ->
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.width(64.dp),
-                    color = MaterialTheme.colorScheme.primary,
-                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                )
-            } else {
+
+                }
+            ) { innerPadding ->
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
@@ -117,7 +126,8 @@ fun CustomerDeliveriesScreenContent(
                     CustomerDeliveriesView(
                         modifier = modifier.padding(bottom = 60.dp),
                         activeDeliveries = activeDeliveries,
-                        finishedDeliveries = finishedDeliveries
+                        finishedDeliveries = finishedDeliveries,
+                        onActiveDeliveryClick = onActiveDeliveryClick
                     )
                 }
             }

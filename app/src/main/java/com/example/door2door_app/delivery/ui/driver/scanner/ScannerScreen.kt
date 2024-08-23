@@ -1,9 +1,8 @@
-package com.example.door2door_app.delivery.ui.driver
+package com.example.door2door_app.delivery.ui.driver.scanner
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -12,6 +11,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -19,15 +19,28 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
+import com.example.door2door_app.MainActivity
+import com.example.door2door_app.websockets.WebSocketClient
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ScannerScreen(
-    navController: NavController
+    navController: NavController,
+    webSocketClient: WebSocketClient,
+    viewModel: ScannerViewModel = koinViewModel()
 ) {
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = null) {
+        viewModel.activateServerListener.collect {
+            (context as? MainActivity)?.let { webSocketClient.connect(it) }
+        }
+    }
+
     val localContext = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val cameraProviderFuture = remember {
@@ -47,7 +60,7 @@ fun ScannerScreen(
             val analyzer = ImageAnalysis.Builder().build()
             analyzer.setAnalyzer(
                 ContextCompat.getMainExecutor(context),
-                BarcodeAnalyzer(context, navController = navController)
+                BarcodeAnalyzer(context, navController = navController, viewModel = viewModel)
             )
 
             runCatching {
@@ -67,7 +80,8 @@ fun ScannerScreen(
 
 class BarcodeAnalyzer(
     private val context: Context,
-    private val navController: NavController
+    private val navController: NavController,
+    private val viewModel: ScannerViewModel
 ) : ImageAnalysis.Analyzer {
 
     private var isBarcodeScanned: Boolean = false
@@ -91,7 +105,7 @@ class BarcodeAnalyzer(
                     ?.joinToString(",")
                     ?.let {
                         if (isBarcodeScanned.not()) {
-                            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                            viewModel.confirmDelivery(confirmPath = it)
                             navController.popBackStack()
                             isBarcodeScanned = true
                         }

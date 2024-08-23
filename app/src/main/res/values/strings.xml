@@ -24,5 +24,21 @@
     <string name="pending_deliveries">Pending deliveries</string>
     <string name="finished_deliveries">FINISHED DELIVERIES</string>
     <string name="all_deliveries">All deliveries</string>
+    <string name="no_tracking_code_available">No tracking code available</string>
+    <string name="in_progress">In progress</string>
+    <string name="picking_up">Picking up</string>
+    <string name="delivered">Delivered</string>
+    <string name="pending">Pending</string>
+    <string name="delivery_driver">Delivery driver</string>
+    <string name="from">From</string>
+    <string name="profile">Profile</string>
+    <string name="your_profile">- Your profile</string>
+    <string name="total_deliveries">Total deliveries</string>
+    <string name="date_registered">Date registered</string>
+    <string name="log_out">Log out</string>
+    <string name="new_delivery">New delivery</string>
+    <string name="do_you_want_to_accept_the_new_delivery">Do you want to accept the new delivery?</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
 
 </resources>

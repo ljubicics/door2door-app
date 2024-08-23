@@ -28,4 +28,16 @@ class DeliveryRepository(
     override suspend fun changeDeliveryStatus(deliveryId: Long, status: DeliveryStatus): RepositoryResponse<Boolean> {
         return remoteDataSource.changeDeliveryStatus(deliveryId = deliveryId, status = status.toString())
     }
+
+    override suspend fun getDeliveryDetails(deliveryId: Long): RepositoryResponse<Delivery> {
+        return remoteDataSource.fetchDeliveryDetails(deliveryId = deliveryId)
+    }
+
+    override suspend fun confirmDelivery(confirmPath: String): RepositoryResponse<Boolean> {
+        return remoteDataSource.confirmDelivery(confirmPath = confirmPath)
+    }
+
+    override suspend fun acceptDelivery(deliveryId: Long, driverId: Long): RepositoryResponse<Boolean> {
+        return remoteDataSource.acceptDelivery(deliveryId = deliveryId, driverId = driverId)
+    }
 }

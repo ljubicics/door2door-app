@@ -10,4 +10,7 @@ interface IDeliveryRepository {
     suspend fun fetchDriverInProgressDelivery(accountId: Long): RepositoryResponse<Delivery>
     suspend fun fetchAllUserActiveDeliveries(accountId: Long): RepositoryResponse<List<Delivery>>
     suspend fun changeDeliveryStatus(deliveryId: Long, status: DeliveryStatus): RepositoryResponse<Boolean>
+    suspend fun getDeliveryDetails(deliveryId: Long): RepositoryResponse<Delivery>
+    suspend fun confirmDelivery(confirmPath: String): RepositoryResponse<Boolean>
+    suspend fun acceptDelivery(deliveryId: Long, driverId: Long): RepositoryResponse<Boolean>
 }

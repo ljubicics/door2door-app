@@ -28,6 +28,12 @@ sealed class CustomerDestinations : IDestination {
 
     @Serializable
     data object DeliveryScreenPath : CustomerDestinations()
+
+    @Serializable
+    data class DeliveryDetailsPath(val deliveryId: Long) : CustomerDestinations()
+
+    @Serializable
+    data object ProfileScreenPath : CustomerDestinations()
 }
 
 sealed class DeliveryDriverDestinations : IDestination {
@@ -40,4 +46,7 @@ sealed class DeliveryDriverDestinations : IDestination {
 
     @Serializable
     data object ScannerScreenPath : DeliveryDriverDestinations()
+
+    @Serializable
+    data object ProfileScreenPath : DeliveryDriverDestinations()
 }
