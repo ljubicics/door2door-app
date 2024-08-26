@@ -40,5 +40,7 @@
     <string name="do_you_want_to_accept_the_new_delivery">Do you want to accept the new delivery?</string>
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
+    <string name="delivery_details">Delivery details</string>
+    <string name="show_qr_code_beneath_to_your_delivery_driver">Show QR code beneath to your delivery driver</string>
 
 </resources>

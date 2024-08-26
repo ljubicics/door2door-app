@@ -19,22 +19,27 @@ class WebSocketClient(private val url: String) {
 
     fun connect(listener: WebSocketListener) {
         CoroutineScope(Dispatchers.IO).launch {
-            client.wss(url) {
-                listener.onConnected()
+            try {
+                Log.d("websocket", "Attempting to connect to $url")
+                client.wss(url) {
+                    Log.d("websocket", "Connected to $url")
+                    listener.onConnected()
 
-                try {
-                    for (frame in incoming) {
-                        if (frame is Frame.Text) {
-                            Log.d("websocket", "Received frame: ${frame.readText()}")
-                            listener.onMessage(frame.readText())
-                        } else {
-                            Log.d("websocket", "Received non-text frame")
+                    try {
+                        for (frame in incoming) {
+                            if (frame is Frame.Text) {
+                                Log.d("websocket", "Received frame: ${frame.readText()}")
+                                listener.onMessage(frame.readText())
+                            } else {
+                                Log.d("websocket", "Received non-text frame")
+                            }
                         }
+                    } catch (e: Exception) {
+                        Log.d("websocket", "Error in incoming loop: ${e.message}")
                     }
-                    Log.d("websocket", "Connected")
-                } catch (e: Exception) {
-                    Log.d("websocket", "Error: ${e.message}")
                 }
+            } catch (e: Exception) {
+                Log.d("websocket", "Connection error: ${e.message}")
             }
         }
     }

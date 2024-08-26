@@ -49,7 +49,11 @@ class UserPreferences(
         val user = preferences.data.map { preferences ->
             preferences[userInfoKey] ?: ""
         }.first()
-        return Json.decodeFromString(string = user)
+        return if (user != "") {
+            Json.decodeFromString(string = user)
+        } else {
+            User()
+        }
     }
 
     override suspend fun storeAccountData(account: Account) {

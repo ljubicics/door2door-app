@@ -42,6 +42,7 @@ import com.example.door2door_app.MainActivity
 import com.example.door2door_app.R
 import com.example.door2door_app.profile.ui.components.ProfileDetails
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
+import com.example.door2door_app.user.domain.model.Account
 import com.example.door2door_app.user.domain.model.User
 import com.example.door2door_app.websockets.WebSocketClient
 import org.koin.androidx.compose.koinViewModel
@@ -67,6 +68,7 @@ fun ProfileScreen(
 
     ProfileScreenContent(
         user = state.user,
+        account = state.account,
         isLoading = state.isLoading,
         webSocketClient = webSocketClient,
         onLogOutClick = viewModel::onLogOutClick
@@ -77,6 +79,7 @@ fun ProfileScreen(
 @Composable
 fun ProfileScreenContent(
     user: User? = null,
+    account: Account? = null,
     isLoading: Boolean = false,
     webSocketClient: WebSocketClient? = null,
     onLogOutClick: () -> Unit = {}
@@ -188,7 +191,8 @@ fun ProfileScreenContent(
             ) {
                 ProfileDetails(
                     modifier = Modifier.padding(16.dp),
-                    user = user
+                    user = user,
+                    account = account
                 )
             }
         }

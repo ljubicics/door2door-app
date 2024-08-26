@@ -19,7 +19,8 @@ class StoreAccountInfoUseCase(
                     Account(
                         id = result.body.id,
                         username = result.body.username,
-                        role = result.body.role.name
+                        role = result.body.role.name,
+                        numberOfDeliveries = result.body.numberOfDeliveries
                     )
                 } catch (e: Exception) {
                     Account(

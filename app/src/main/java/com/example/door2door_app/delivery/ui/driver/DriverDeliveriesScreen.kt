@@ -62,18 +62,7 @@ fun DriverDeliveriesScreen(
 
     LaunchedEffect(Unit) {
         viewmodel.loadScreenInfo()
-    }
-
-    LaunchedEffect(key1 = null) {
-        viewmodel.registerAsActive.collect {
-            (context as? MainActivity)?.let { webSocketClient.connect(it) }
-        }
-    }
-
-    LaunchedEffect(key1 = null) {
-        viewmodel.disconnectFromServerSession.collect {
-            (context as? MainActivity)?.let { webSocketClient.disconnect(it) }
-        }
+        (context as? MainActivity)?.let { webSocketClient.connect(it) }
     }
 
     LaunchedEffect(key1 = null) {
@@ -138,7 +127,7 @@ private fun DriverDeliveriesScreenContent(
                 trackColor = MaterialTheme.colorScheme.surfaceVariant,
             )
         } else {
-            if (showDeliveryDialog.showDialog) {
+            if (showDeliveryDialog.showDialog && inProgressDelivery == null) {
                 NewDeliveryDialog(
                     onDismissRequest = {
                         onDismissDialog()
