@@ -2,6 +2,7 @@ package com.example.door2door_app.profile.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.door2door_app.profile.domain.usecase.FetchAccountInfoUseCase
 import com.example.door2door_app.user.domain.model.Account
 import com.example.door2door_app.user.domain.model.User
 import com.example.door2door_app.user.domain.repository.preferences.IUserPreferences
@@ -15,7 +16,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
-    private val preferences: IUserPreferences
+    private val preferences: IUserPreferences,
+    private val fetchAccountInfoUseCase: FetchAccountInfoUseCase
 ) : ViewModel() {
 
     data class State(
@@ -34,7 +36,7 @@ class ProfileViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             setIsLoading(isLoading = true)
             val user = preferences.getUserData()
-            val account = preferences.getAccountData()
+            val account = fetchAccountInfoUseCase(preferences.getAccountData().username)
             _state.value = State(user = user, account = account)
             setIsLoading(isLoading = false)
         }

@@ -87,4 +87,14 @@ class UserPreferences(
             preferences.remove(key = accountInfoKey)
         }
     }
+
+    override suspend fun updateAccountNumberOfDeliveries(account: Account) {
+        val currentAccount = getAccountData()
+
+        val updatedAccount = currentAccount.copy(
+            numberOfDeliveries = account.numberOfDeliveries
+        )
+
+       storeAccountData(account = updatedAccount)
+    }
 }

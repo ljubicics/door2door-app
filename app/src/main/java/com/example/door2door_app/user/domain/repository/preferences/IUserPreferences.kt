@@ -13,4 +13,5 @@ interface IUserPreferences {
     suspend fun getAccountData(): Account
     suspend fun clearUserData()
     suspend fun clearAccountData()
+    suspend fun updateAccountNumberOfDeliveries(account: Account)
 }
