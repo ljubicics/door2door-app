@@ -33,7 +33,7 @@ class ProfileViewModel(
     val logout = _logout.receiveAsFlow()
 
     fun loadUser() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             setIsLoading(isLoading = true)
             val user = preferences.getUserData()
             val account = fetchAccountInfoUseCase(preferences.getAccountData().username)

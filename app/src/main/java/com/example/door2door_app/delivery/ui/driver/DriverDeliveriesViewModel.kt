@@ -13,6 +13,7 @@ import com.example.door2door_app.user.domain.model.User
 import com.example.door2door_app.user.domain.repository.preferences.IUserPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -50,6 +51,7 @@ class DriverDeliveriesViewModel(
             setIsLoading(isLoading = true)
             loadDriverInfo()
             loadDeliveries()
+            delay(500L)
             setIsLoading(isLoading = false)
         }
     }

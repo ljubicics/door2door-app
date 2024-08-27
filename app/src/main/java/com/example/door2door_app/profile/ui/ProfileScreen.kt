@@ -86,114 +86,118 @@ fun ProfileScreenContent(
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
     val context = LocalContext.current
-
-    if (isLoading) {
-        CircularProgressIndicator(
-            modifier = Modifier.width(64.dp),
-            color = MaterialTheme.colorScheme.primary,
-            trackColor = MaterialTheme.colorScheme.surfaceVariant,
-        )
-    } else {
-        BottomSheetScaffold(
-            scaffoldState = scaffoldState,
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = stringResource(R.string.your_profile),
-                            fontWeight = FontWeight.W300,
-                            fontSize = 26.sp
-                        )
-                    },
-                    colors = TopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        scrolledContainerColor = MaterialTheme.colorScheme.primary,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                        actionIconContentColor = MaterialTheme.colorScheme.onPrimary
-                    )
-                )
-            },
-            sheetContent = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(110.dp)
-                        .padding(paddingValues = PaddingValues(start = 16.dp, end = 16.dp, top = 32.dp))
-                        .background(
-                            color = MaterialTheme.colorScheme.onSurface,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .clickable {
-                            (context as? MainActivity)?.let { webSocketClient?.disconnect(it) }
-                            onLogOutClick()
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.width(64.dp),
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
+        } else {
+            BottomSheetScaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = stringResource(R.string.your_profile),
+                                fontWeight = FontWeight.W300,
+                                fontSize = 26.sp
+                            )
                         },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Row(
-                        Modifier
+                        colors = TopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            scrolledContainerColor = MaterialTheme.colorScheme.primary,
+                            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                            actionIconContentColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    )
+                },
+                sheetContent = {
+                    Box(
+                        modifier = Modifier
                             .fillMaxWidth()
-                            .padding(
-                                paddingValues = PaddingValues(
-                                    start = 30.dp,
-                                    end = 10.dp,
-                                    top = 10.dp,
-                                    bottom = 10.dp
-                                )
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
+                            .height(110.dp)
+                            .padding(paddingValues = PaddingValues(start = 16.dp, end = 16.dp, top = 32.dp))
+                            .background(
+                                color = MaterialTheme.colorScheme.onSurface,
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .clickable {
+                                (context as? MainActivity)?.let { webSocketClient?.disconnect(it) }
+                                onLogOutClick()
+                            },
+                        contentAlignment = Alignment.Center
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .background(
-                                    color = MaterialTheme.colorScheme.tertiary,
-                                    shape = CircleShape
-                                )
-                                .size(50.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .padding(end = 4.dp)
-                                    .size(30.dp),
-                                painter = painterResource(
-                                    id = R.drawable.log_out
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    paddingValues = PaddingValues(
+                                        start = 30.dp,
+                                        end = 10.dp,
+                                        top = 10.dp,
+                                        bottom = 10.dp
+                                    )
                                 ),
-                                contentDescription = null
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Start
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .background(
+                                        color = MaterialTheme.colorScheme.tertiary,
+                                        shape = CircleShape
+                                    )
+                                    .size(50.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Image(
+                                    modifier = Modifier
+                                        .padding(end = 4.dp)
+                                        .size(30.dp),
+                                    painter = painterResource(
+                                        id = R.drawable.log_out
+                                    ),
+                                    contentDescription = null
+                                )
+                            }
+                            Spacer(modifier = Modifier.size(32.dp))
+                            Text(
+                                text = stringResource(R.string.log_out),
+                                fontSize = 22.sp,
+                                color = MaterialTheme.colorScheme.secondary,
+                                fontWeight = FontWeight.SemiBold
                             )
                         }
-                        Spacer(modifier = Modifier.size(32.dp))
-                        Text(
-                            text = stringResource(R.string.log_out),
-                            fontSize = 22.sp,
-                            color = MaterialTheme.colorScheme.secondary,
-                            fontWeight = FontWeight.SemiBold
-                        )
                     }
-                }
-            },
-            sheetPeekHeight = 250.dp,
-            sheetDragHandle = {},
-            sheetShadowElevation = 10.dp,
-            sheetSwipeEnabled = false
-        ) { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = MaterialTheme.colorScheme.primary)
-                    .padding(
-                        paddingValues = PaddingValues(
-                            top = innerPadding.calculateTopPadding(),
-                            bottom = innerPadding.calculateBottomPadding()
+                },
+                sheetPeekHeight = 250.dp,
+                sheetDragHandle = {},
+                sheetShadowElevation = 10.dp,
+                sheetSwipeEnabled = false
+            ) { innerPadding ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = MaterialTheme.colorScheme.primary)
+                        .padding(
+                            paddingValues = PaddingValues(
+                                top = innerPadding.calculateTopPadding(),
+                                bottom = innerPadding.calculateBottomPadding()
+                            )
                         )
+                ) {
+                    ProfileDetails(
+                        modifier = Modifier.padding(16.dp),
+                        user = user,
+                        account = account
                     )
-            ) {
-                ProfileDetails(
-                    modifier = Modifier.padding(16.dp),
-                    user = user,
-                    account = account
-                )
+                }
             }
         }
     }
