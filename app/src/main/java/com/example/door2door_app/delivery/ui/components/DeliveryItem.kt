@@ -72,14 +72,20 @@ fun DeliveryItem(
                 .background(
                     color = MaterialTheme.colorScheme.onSurface,
                     shape = RoundedCornerShape(16.dp)
-                )
-                .clickable { delivery?.let { onDeliveryItemClick(it) } },
+                ),
             contentAlignment = Alignment.Center
         ) {
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(paddingValues = PaddingValues(all = 10.dp)),
+                    .padding(paddingValues = PaddingValues(all = 10.dp))
+                    .clickable {
+                        delivery?.let {
+                            if (it.status != DeliveryStatus.DELIVERED) {
+                                onDeliveryItemClick(it)
+                            }
+                        }
+                    },
             ) {
                 Column(
                     modifier = Modifier

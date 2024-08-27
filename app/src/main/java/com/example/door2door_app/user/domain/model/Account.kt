@@ -7,5 +7,6 @@ data class Account(
     val id: Long = 0,
     val username: String = "",
     val password: String = "",
-    val role: RoleName = RoleName.UNKNOWN
+    val role: RoleName = RoleName.UNKNOWN,
+    val numberOfDeliveries: Int = 0,
 )

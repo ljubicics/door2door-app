@@ -43,7 +43,7 @@ object HttpClientFactory : KoinComponent {
                 contentType(ContentType.Application.Json)
                 url {
                     protocol = URLProtocol.HTTP
-                    host = "10.0.2.2"
+                    host = "188.245.93.77"
                     port = 8080
                     path("api/")
                 }

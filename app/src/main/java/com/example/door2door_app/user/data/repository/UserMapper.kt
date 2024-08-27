@@ -12,7 +12,6 @@ object UserMapper {
             mobileNumber = userDto.mobileNumber,
             address = userDto.address,
             timeCreated = userDto.timeCreated,
-            totalDeliveries = userDto.totalDeliveries
         )
     }
 }

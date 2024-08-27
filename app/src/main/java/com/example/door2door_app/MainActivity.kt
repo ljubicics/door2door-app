@@ -19,7 +19,7 @@ import com.example.door2door_app.websockets.listener.WebSocketListener
 
 class MainActivity : ComponentActivity(), WebSocketListener {
 
-    private val webSocketClient = WebSocketClient("ws://10.10.177.46:8080/ws")
+    private val webSocketClient = WebSocketClient("ws://188.245.93.77:8080/ws")
     private var dialogInfo by mutableStateOf(DeliveryDialogInfo())
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -7,5 +7,6 @@ import kotlinx.serialization.Serializable
 data class AccountDto(
     val id: Long,
     val username: String,
-    val role: Role
+    val role: Role,
+    val numberOfDeliveries: Int,
 )

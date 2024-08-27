@@ -35,12 +35,14 @@ import com.example.door2door_app.R
 import com.example.door2door_app.profile.ui.components.utils.RegisteredDate
 import com.example.door2door_app.profile.ui.components.utils.TimeRegisteredResolver
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
+import com.example.door2door_app.user.domain.model.Account
 import com.example.door2door_app.user.domain.model.User
 
 @Composable
 fun ProfileDetails(
     modifier: Modifier = Modifier,
-    user: User? = null
+    user: User? = null,
+    account: Account? = null
 ) {
     var timeRegistered by remember {
         mutableStateOf(RegisteredDate())
@@ -117,7 +119,7 @@ fun ProfileDetails(
                         color = MaterialTheme.colorScheme.outline
                     )
                     Text(
-                        text = "${user?.totalDeliveries}",
+                        text = "${account?.numberOfDeliveries}",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimary
@@ -157,8 +159,10 @@ fun PreviewProfileDetails() {
                 user = User(
                     name = "John",
                     surname = "Doe",
-                    totalDeliveries = 10,
                     timeCreated = 1723934294246
+                ),
+                account = Account(
+                    numberOfDeliveries = 12
                 )
             )
         }

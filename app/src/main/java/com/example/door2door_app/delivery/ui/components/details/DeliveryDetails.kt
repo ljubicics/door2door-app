@@ -160,7 +160,12 @@ fun DeliveryDetails(
                                     fontWeight = FontWeight.Medium,
                                     color = MaterialTheme.colorScheme.onPrimary
                                 )
-                            }
+                            } ?: Text(
+                                text = "No delivery driver assigned",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
                         }
                     }
                 }

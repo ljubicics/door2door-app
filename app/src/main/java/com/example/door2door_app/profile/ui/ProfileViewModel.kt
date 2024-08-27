@@ -2,6 +2,7 @@ package com.example.door2door_app.profile.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.door2door_app.user.domain.model.Account
 import com.example.door2door_app.user.domain.model.User
 import com.example.door2door_app.user.domain.repository.preferences.IUserPreferences
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,7 @@ class ProfileViewModel(
 
     data class State(
         val user: User? = null,
+        val account: Account? = null,
         val isLoading: Boolean = false
     )
 
@@ -32,7 +34,8 @@ class ProfileViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             setIsLoading(isLoading = true)
             val user = preferences.getUserData()
-            _state.value = State(user = user)
+            val account = preferences.getAccountData()
+            _state.value = State(user = user, account = account)
             setIsLoading(isLoading = false)
         }
     }

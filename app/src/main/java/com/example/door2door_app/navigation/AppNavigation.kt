@@ -132,7 +132,6 @@ fun DeliveryDriverNavGraph(
         }
         composable<DeliveryDriverDestinations.ScannerScreenPath> {
             ScannerScreen(
-                webSocketClient = webSocketClient,
                 navController = navController
             )
         }
