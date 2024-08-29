@@ -33,21 +33,42 @@ class CustomerDeliveriesViewModel(
         val user: User? = null,
         val finishedDeliveries: List<Delivery> = emptyList(),
         val activeDeliveries: List<Delivery> = emptyList(),
-        val isLoading: Boolean = false
+        val isLoading: Boolean = false,
+        val showDeliveryDetailsPopup: Boolean = false,
+        val selectedDelivery: Delivery? = null
     )
 
     private val _state = MutableStateFlow(State())
-    val state = _state.stateIn(
-        viewModelScope, SharingStarted.WhileSubscribed(5000), State()
-    )
+    val state = _state.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), State())
 
     private val _onActiveDeliveryClick = Channel<Delivery>()
     val onActiveDeliveryClick = _onActiveDeliveryClick.receiveAsFlow()
+
+    private val _onFinishedDeliveryClick = Channel<Delivery>()
+    val onFinishedDeliveryClick = _onFinishedDeliveryClick.receiveAsFlow()
 
     fun onActiveDeliveryClick(delivery: Delivery) {
         viewModelScope.launch {
             _onActiveDeliveryClick.send(delivery)
         }
+    }
+
+    fun onFinishedDeliveryClick(delivery: Delivery) {
+        viewModelScope.launch {
+            _onFinishedDeliveryClick.send(delivery)
+        }
+    }
+
+    fun selectDelivery(delivery: Delivery) {
+        _state.update { it.copy(selectedDelivery = delivery) }
+    }
+
+    fun showDeliveryDetailsPopup() {
+        _state.update { it.copy(showDeliveryDetailsPopup = true) }
+    }
+
+    fun onDismissPopup() {
+        _state.update { it.copy(showDeliveryDetailsPopup = false) }
     }
 
     private fun loadScreenInfo() {

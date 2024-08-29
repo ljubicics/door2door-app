@@ -33,7 +33,8 @@ fun CustomerDeliveriesView(
     modifier: Modifier = Modifier,
     activeDeliveries: List<Delivery>,
     finishedDeliveries: List<Delivery>,
-    onActiveDeliveryClick: (Delivery) -> Unit = {}
+    onActiveDeliveryClick: (Delivery) -> Unit = {},
+    onFinishedDeliveryClick: (Delivery) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier
@@ -79,7 +80,8 @@ fun CustomerDeliveriesView(
             items = finishedDeliveries,
             key = { index, _ -> index + finishedDeliveries.size }) { index, delivery ->
             DeliveryItem(
-                delivery = delivery
+                delivery = delivery,
+                onDeliveryItemClick = onFinishedDeliveryClick
             )
         }
     }

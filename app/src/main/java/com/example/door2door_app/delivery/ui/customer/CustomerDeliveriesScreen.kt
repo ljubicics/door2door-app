@@ -1,5 +1,6 @@
 package com.example.door2door_app.delivery.ui.customer
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -23,16 +25,21 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.door2door_app.R
 import com.example.door2door_app.delivery.domain.model.Delivery
 import com.example.door2door_app.delivery.ui.components.customer.CustomerDeliveriesView
+import com.example.door2door_app.delivery.ui.components.details.DeliveryDetails
 import com.example.door2door_app.navigation.CustomerDestinations
 import com.example.door2door_app.ui.theme.Door2DoorAppTheme
 import com.example.door2door_app.user.domain.model.User
@@ -52,12 +59,23 @@ fun CustomerDeliveriesScreen(
         }
     }
 
+    LaunchedEffect(key1 = null) {
+        viewModel.onFinishedDeliveryClick.collectLatest { delivery ->
+            viewModel.selectDelivery(delivery = delivery)
+            viewModel.showDeliveryDetailsPopup()
+        }
+    }
+
     CustomerDeliveriesScreenContent(
         user = state.user,
         activeDeliveries = state.activeDeliveries,
         finishedDeliveries = state.finishedDeliveries,
         isLoading = state.isLoading,
-        onActiveDeliveryClick = viewModel::onActiveDeliveryClick
+        showDeliveryDetailsPopup = state.showDeliveryDetailsPopup,
+        selectedDelivery = state.selectedDelivery,
+        onActiveDeliveryClick = viewModel::onActiveDeliveryClick,
+        onFinishedDeliveryClick = viewModel::onFinishedDeliveryClick,
+        onDismissPopup = viewModel::onDismissPopup
     )
 }
 
@@ -69,10 +87,22 @@ fun CustomerDeliveriesScreenContent(
     activeDeliveries: List<Delivery> = emptyList(),
     finishedDeliveries: List<Delivery> = emptyList(),
     isLoading: Boolean = false,
-    onActiveDeliveryClick: (Delivery) -> Unit = {}
+    showDeliveryDetailsPopup: Boolean = false,
+    selectedDelivery: Delivery? = null,
+    onActiveDeliveryClick: (Delivery) -> Unit = {},
+    onFinishedDeliveryClick: (Delivery) -> Unit = {},
+    onDismissPopup: () -> Unit = {}
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .then(
+                if (showDeliveryDetailsPopup) {
+                    Modifier.blur(4.dp)
+                } else {
+                    Modifier
+                }
+            ),
         contentAlignment = Alignment.Center,
     ) {
         if (isLoading) {
@@ -90,6 +120,27 @@ fun CustomerDeliveriesScreenContent(
                     color = MaterialTheme.colorScheme.primary
                 )
             } else {
+                if (showDeliveryDetailsPopup) {
+                    Popup(
+                        alignment = Alignment.Center,
+                        properties = PopupProperties(
+                            dismissOnClickOutside = true,
+                            dismissOnBackPress = true
+                        )
+                    ) {
+                        Box(
+                            Modifier
+                                .fillMaxSize()
+                                .clip(RoundedCornerShape(4.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            DeliveryDetails(delivery = selectedDelivery)
+                        }
+                    }
+                    BackHandler {
+                        onDismissPopup()
+                    }
+                }
                 Scaffold(
                     topBar = {
 
@@ -135,7 +186,8 @@ fun CustomerDeliveriesScreenContent(
                             modifier = modifier.padding(bottom = 60.dp),
                             activeDeliveries = activeDeliveries,
                             finishedDeliveries = finishedDeliveries,
-                            onActiveDeliveryClick = onActiveDeliveryClick
+                            onActiveDeliveryClick = onActiveDeliveryClick,
+                            onFinishedDeliveryClick = onFinishedDeliveryClick
                         )
                     }
                 }

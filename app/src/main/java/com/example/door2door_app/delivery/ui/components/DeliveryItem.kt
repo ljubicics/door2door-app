@@ -81,9 +81,7 @@ fun DeliveryItem(
                     .padding(paddingValues = PaddingValues(all = 10.dp))
                     .clickable {
                         delivery?.let {
-                            if (it.status != DeliveryStatus.DELIVERED) {
-                                onDeliveryItemClick(it)
-                            }
+                            onDeliveryItemClick(it)
                         }
                     },
             ) {
