@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -63,6 +65,7 @@ fun DeliveryDetailsScreen(
 
     DeliveryDetailsScreenContent(
         delivery = state.delivery,
+        isLoading = state.isLoading,
         onBackPressed = onBackPressed
     )
 }
@@ -71,103 +74,117 @@ fun DeliveryDetailsScreen(
 @Composable
 private fun DeliveryDetailsScreenContent(
     delivery: Delivery?,
+    isLoading: Boolean = false,
     onBackPressed: () -> Unit = { }
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
 
-    BottomSheetScaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.delivery_details),
-                        fontWeight = FontWeight.W300,
-                        fontSize = 26.sp
-                    )
-                },
-                navigationIcon = {
-                    Icon(
-                        modifier = Modifier.clickable {
-                            onBackPressed()
-                        },
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = null
-                    )
-                },
-                colors = TopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    scrolledContainerColor = MaterialTheme.colorScheme.primary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
-                )
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.width(64.dp),
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
             )
-        },
-        sheetContent = {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(350.dp)
-                    .padding(
-                        paddingValues = PaddingValues(
-                            start = 32.dp,
-                            end = 32.dp,
-                            top = 16.dp
-                        )
-                    )
-                    .clip(shape = RoundedCornerShape(40.dp)),
-                colors = CardColors(
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    disabledContentColor = MaterialTheme.colorScheme.tertiary,
-                    disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                )
-            ) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        modifier = Modifier.padding(
-                            paddingValues = PaddingValues(
-                                start = 32.dp,
-                                end = 32.dp,
-                                bottom = 16.dp
+        } else {
+            BottomSheetScaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = stringResource(R.string.delivery_details),
+                                fontWeight = FontWeight.W300,
+                                fontSize = 26.sp
                             )
-                        ),
-                        text = stringResource(R.string.show_qr_code_beneath_to_your_delivery_driver),
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold
-                    )
-                    val bitmap = QrCodeGenerator.encodeAsBitmap(
-                        str = "id=${delivery?.id}&code=${delivery?.trackingCode}&receiverId=${delivery?.receiver?.id}",
-                        width = 700,
-                        height = 700
-                    )
-                    bitmap?.asImageBitmap()?.let {
-                        Image(
-                            modifier = Modifier.clip(shape = RoundedCornerShape(size = 30.dp)),
-                            bitmap = it,
-                            contentDescription = null
+                        },
+                        navigationIcon = {
+                            Icon(
+                                modifier = Modifier.clickable {
+                                    onBackPressed()
+                                },
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = null
+                            )
+                        },
+                        colors = TopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            scrolledContainerColor = MaterialTheme.colorScheme.primary,
+                            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                            actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                         )
+                    )
+                },
+                sheetContent = {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(350.dp)
+                            .padding(
+                                paddingValues = PaddingValues(
+                                    start = 32.dp,
+                                    end = 32.dp,
+                                    top = 16.dp
+                                )
+                            )
+                            .clip(shape = RoundedCornerShape(40.dp)),
+                        colors = CardColors(
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                            containerColor = MaterialTheme.colorScheme.secondary,
+                            disabledContentColor = MaterialTheme.colorScheme.tertiary,
+                            disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                modifier = Modifier.padding(
+                                    paddingValues = PaddingValues(
+                                        start = 32.dp,
+                                        end = 32.dp,
+                                        bottom = 16.dp
+                                    )
+                                ),
+                                text = stringResource(R.string.show_qr_code_beneath_to_your_delivery_driver),
+                                textAlign = TextAlign.Center,
+                                fontWeight = FontWeight.Bold
+                            )
+                            val bitmap = QrCodeGenerator.encodeAsBitmap(
+                                str = "id=${delivery?.id}&code=${delivery?.trackingCode}&receiverId=${delivery?.receiver?.id}",
+                                width = 700,
+                                height = 700
+                            )
+                            bitmap?.asImageBitmap()?.let {
+                                Image(
+                                    modifier = Modifier.clip(shape = RoundedCornerShape(size = 30.dp)),
+                                    bitmap = it,
+                                    contentDescription = null
+                                )
+                            }
+                        }
                     }
+                },
+                sheetPeekHeight = 470.dp,
+                sheetDragHandle = {},
+                sheetShadowElevation = 10.dp,
+                sheetSwipeEnabled = false
+            ) { innerPadding ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = MaterialTheme.colorScheme.primary)
+                        .padding(paddingValues = PaddingValues(top = innerPadding.calculateTopPadding()))
+                ) {
+                    DeliveryDetails(delivery = delivery)
                 }
             }
-        },
-        sheetPeekHeight = 470.dp,
-        sheetDragHandle = {},
-        sheetShadowElevation = 10.dp,
-        sheetSwipeEnabled = false
-    ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.primary)
-                .padding(paddingValues = PaddingValues(top = innerPadding.calculateTopPadding()))
-        ) {
-            DeliveryDetails(delivery = delivery)
         }
     }
 }
