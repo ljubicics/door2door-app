@@ -82,53 +82,62 @@ fun CustomerDeliveriesScreenContent(
                 trackColor = MaterialTheme.colorScheme.surfaceVariant,
             )
         } else {
-            Scaffold(
-                topBar = {
+            if (activeDeliveries.isEmpty() && finishedDeliveries.isEmpty()) {
+                Text(
+                    text = stringResource(R.string.no_deliveries),
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 24.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            } else {
+                Scaffold(
+                    topBar = {
 
-                    TopAppBar(
-                        title = {
-                            Text(
-                                text = " - Hello, ${user?.name}",
-                                fontWeight = FontWeight.W300,
-                                fontSize = 26.sp
+                        TopAppBar(
+                            title = {
+                                Text(
+                                    text = " - Hello, ${user?.name}",
+                                    fontWeight = FontWeight.W300,
+                                    fontSize = 26.sp
+                                )
+                            },
+                            colors = TopAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                scrolledContainerColor = MaterialTheme.colorScheme.primary,
+                                navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                                titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                                actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                             )
-                        },
-                        colors = TopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            scrolledContainerColor = MaterialTheme.colorScheme.primary,
-                            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                            titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                            actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                         )
-                    )
 
-                }
-            ) { innerPadding ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(innerPadding)
-                        .background(color = MaterialTheme.colorScheme.surface)
-                        .then(modifier),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top
-                ) {
-                    Row(
-                        modifier = Modifier.padding(paddingValues = PaddingValues(top = 16.dp, bottom = 8.dp)),
+                    }
+                ) { innerPadding ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(innerPadding)
+                            .background(color = MaterialTheme.colorScheme.surface)
+                            .then(modifier),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top
                     ) {
-                        Text(
-                            text = stringResource(R.string.all_deliveries),
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 24.sp,
-                            color = MaterialTheme.colorScheme.primary
+                        Row(
+                            modifier = Modifier.padding(paddingValues = PaddingValues(top = 16.dp, bottom = 8.dp)),
+                        ) {
+                            Text(
+                                text = stringResource(R.string.all_deliveries),
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 24.sp,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                        CustomerDeliveriesView(
+                            modifier = modifier.padding(bottom = 60.dp),
+                            activeDeliveries = activeDeliveries,
+                            finishedDeliveries = finishedDeliveries,
+                            onActiveDeliveryClick = onActiveDeliveryClick
                         )
                     }
-                    CustomerDeliveriesView(
-                        modifier = modifier.padding(bottom = 60.dp),
-                        activeDeliveries = activeDeliveries,
-                        finishedDeliveries = finishedDeliveries,
-                        onActiveDeliveryClick = onActiveDeliveryClick
-                    )
                 }
             }
         }

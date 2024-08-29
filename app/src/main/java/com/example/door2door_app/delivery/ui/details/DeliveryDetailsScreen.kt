@@ -180,7 +180,7 @@ fun PreviewDeliveryDetailsScreen() {
         Surface {
             DeliveryDetailsScreenContent(
                 delivery = Delivery(
-                    id = 1,
+                    id = 6,
                     status = DeliveryStatus.IN_PROGRESS,
                     receiver = Account(
                         id = 2,
@@ -192,7 +192,7 @@ fun PreviewDeliveryDetailsScreen() {
                     driver = Account(
                         username = "Nikola"
                     ),
-                    trackingCode = "FS804026922MS"
+                    trackingCode = "FG673336433EQ"
                 )
             )
         }

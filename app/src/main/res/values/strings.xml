@@ -42,5 +42,6 @@
     <string name="reject">Reject</string>
     <string name="delivery_details">Delivery details</string>
     <string name="show_qr_code_beneath_to_your_delivery_driver">Show QR code beneath to your delivery driver</string>
+    <string name="no_deliveries">You have no deliveries</string>
 
 </resources>

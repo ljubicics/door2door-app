@@ -60,7 +60,7 @@ fun DriverDeliveriesScreen(
     val state by viewmodel.state.collectAsStateWithLifecycle()
     val cameraPermissionState = rememberPermissionState(permission = android.Manifest.permission.CAMERA)
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(navController.currentBackStackEntry) {
         viewmodel.loadScreenInfo()
         (context as? MainActivity)?.let { webSocketClient.connect(it) }
     }

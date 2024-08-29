@@ -11,6 +11,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -37,6 +38,13 @@ fun ScannerScreen(
     val cameraProviderFuture = remember {
         ProcessCameraProvider.getInstance(localContext)
     }
+
+    LaunchedEffect(key1 = null) {
+        viewModel.nextScreen.collect {
+            navController.popBackStack()
+        }
+    }
+
     AndroidView(
         modifier = Modifier.fillMaxSize(),
         factory = { context ->
@@ -97,7 +105,6 @@ class BarcodeAnalyzer(
                     ?.let {
                         if (isBarcodeScanned.not()) {
                             viewModel.confirmDelivery(confirmPath = it)
-                            navController.popBackStack()
                             isBarcodeScanned = true
                         }
                     }

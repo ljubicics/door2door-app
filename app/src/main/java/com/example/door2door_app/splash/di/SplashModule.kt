@@ -9,6 +9,6 @@ import org.koin.dsl.module
 val splashModule = module {
     viewModelOf(::SplashViewModel)
 
-    single { CheckIfUserAlreadyLoggedInUseCase(get()) }
+    single { CheckIfUserAlreadyLoggedInUseCase(get(), get()) }
     single { CheckSavedUserRoleUseCase(get()) }
 }

@@ -12,13 +12,13 @@ class ScannerViewModel(
     private val confirmDeliveryUseCase: ConfirmDeliveryUseCase
 ) : ViewModel() {
 
-    private val _activateServerListener = Channel<Unit>()
-    val activateServerListener = _activateServerListener.receiveAsFlow()
+    private val _nextScreen = Channel<Unit>()
+    val nextScreen = _nextScreen.receiveAsFlow()
 
     fun confirmDelivery(confirmPath: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = confirmDeliveryUseCase(confirmPath = confirmPath)
-            if (result) _activateServerListener.send(Unit)
+            _nextScreen.send(Unit)
         }
     }
 
