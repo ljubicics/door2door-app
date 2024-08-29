@@ -107,7 +107,7 @@ fun DeliveryDetails(
                     Spacer(modifier = Modifier.height(4.dp))
                     Row {
                         Text(
-                            text = stringResource(R.string.delivery_in_progress),
+                            text = stringResource(R.string.delivery_info),
                             fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.outline
                         )

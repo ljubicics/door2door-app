@@ -24,10 +24,6 @@ class CustomerDeliveriesViewModel(
     private val getAllCustomerActiveDeliveriesUseCase: GetAllCustomerActiveDeliveriesUseCase
 ) : ViewModel() {
 
-    init {
-        loadScreenInfo()
-    }
-
     data class State(
         val account: Account? = null,
         val user: User? = null,
@@ -71,7 +67,7 @@ class CustomerDeliveriesViewModel(
         _state.update { it.copy(showDeliveryDetailsPopup = false) }
     }
 
-    private fun loadScreenInfo() {
+    fun loadScreenInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             setIsLoading(isLoading = true)
             val account = preferences.getAccountData()

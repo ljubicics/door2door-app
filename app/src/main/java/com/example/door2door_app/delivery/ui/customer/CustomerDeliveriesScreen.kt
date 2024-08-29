@@ -53,6 +53,10 @@ fun CustomerDeliveriesScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    LaunchedEffect(navController.currentBackStackEntry) {
+        viewModel.loadScreenInfo()
+    }
+
     LaunchedEffect(key1 = null) {
         viewModel.onActiveDeliveryClick.collectLatest { delivery ->
             navController.navigate(CustomerDestinations.DeliveryDetailsPath(deliveryId = delivery.id))
